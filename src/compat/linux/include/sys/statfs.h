@@ -14,6 +14,7 @@
 #define ST_NOSUID 0x2 /* Setuid/setgid bits ignored by exec. */
 
 struct statfs {
+	unsigned long f_type;   /* Type of filesystem */
 	unsigned long f_bsize;  /* File system block size. */
 	unsigned long f_frsize; /* Fundamental file system block size. */
 	fsblkcnt_t f_blocks; /* Total number of blocks on file system in units of f_frsize. */
