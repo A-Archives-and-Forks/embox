@@ -1,0 +1,19 @@
+package embox.compat.posix.sys
+
+@DefaultImpl(resource_impl)
+abstract module resource {
+}
+
+static module resource_impl extends resource {
+	@IncludeExport(path="sys")
+	source "resource.h"
+
+	source "getpriority.c"
+	source "getrlimit.c"
+	source "getrusage.c"
+	source "setpriority.c"
+	source "setrlimit.c"
+}
+
+module resource_none extends resource {
+}

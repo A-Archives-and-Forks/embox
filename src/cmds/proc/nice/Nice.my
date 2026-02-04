@@ -20,7 +20,7 @@ package embox.cmd.proc
 module nice {
 	source "nice.c"
 
-	depends embox.compat.posix.proc.priority
+	depends embox.compat.posix.sys.resource
 	depends embox.compat.libc.str
 	depends embox.compat.libc.stdio.printf
 	depends embox.compat.libc.stdio.scanf

@@ -5,7 +5,6 @@ module All {
 		exit,
 		uid,
 		nice,
-		priority,
 		pid
 }
 
@@ -43,13 +42,7 @@ static module uid {
 static module nice {
 	source "nice.c"
 
-	depends priority
-}
-
-static module priority {
-	source "priority.c"
-
-	depends embox.kernel.task.resource.u_area
+	depends embox.compat.posix.sys.resource
 }
 
 static module pid {

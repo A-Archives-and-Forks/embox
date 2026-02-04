@@ -25,7 +25,7 @@ module iperf3 {
 	@NoRuntime depends embox.compat.libc.stdio.getline
 
 	depends embox.compat.posix.sys.mman.mmap_api
-	depends embox.compat.posix.proc.rusage_api
+	depends embox.compat.posix.sys.resource
 	depends embox.compat.posix.proc.daemon_api
 }
 

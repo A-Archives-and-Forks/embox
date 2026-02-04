@@ -22,7 +22,7 @@ package embox.cmd.proc
 module renice {
 	source "renice.c"
 
-	depends embox.compat.posix.proc.priority
+	depends embox.compat.posix.sys.resource
 	depends embox.compat.posix.passwd
 	depends embox.compat.libc.stdio.printf
 	depends embox.compat.libc.stdio.scanf
