@@ -7,10 +7,13 @@
  */
 
 #include <assert.h>
+#include <compiler.h>
+#include <errno.h>
 #include <stdint.h>
 #include <string.h>
-#include <errno.h>
 
+#include <framework/mod/options.h>
+#include <kernel/nsproxy.h>
 #include <kernel/panic.h>
 #include <kernel/sched.h>
 #include <kernel/sched/sched_lock.h>
@@ -21,17 +24,12 @@
 #include <kernel/task/resource/errno.h>
 #include <kernel/task/task_table.h>
 #include <kernel/thread.h>
-#include <kernel/nsproxy.h>
-
 #include <util/binalign.h>
 #include <util/err.h>
-#include <compiler.h>
-
-#include <framework/mod/options.h>
 
 #if OPTION_GET(NUMBER, task_quantity)
 extern struct thread *main_thread_create(unsigned int flags, size_t stack_sz,
-	void *(*run)(void *), void *arg);
+    void *(*run)(void *), void *arg);
 extern void main_thread_delete(struct thread *t);
 #else
 #define main_thread_create thread_create_with_stack
@@ -39,7 +37,7 @@ extern void main_thread_delete(struct thread *t);
 #endif /* OPTION_GET(NUMBER, task_quantity) */
 
 struct task_trampoline_arg {
-	void * (*run)(void *);
+	void *(*run)(void *);
 	void *run_arg;
 };
 
@@ -56,7 +54,7 @@ struct task *task_self(void) {
 	return th->task;
 }
 
-static void * task_trampoline(void *arg_) {
+static void *task_trampoline(void *arg_) {
 	struct task_trampoline_arg *arg = arg_;
 	void *res;
 
@@ -75,14 +73,15 @@ static rlim_t task_get_stack_size(struct task *parent) {
 
 	if (parent) {
 		stack_sz = task_getrlim_stack_size(parent);
-	} else {
+	}
+	else {
 		stack_sz = THREAD_DEFAULT_STACK_SIZE;
 	}
 
 	return stack_sz;
 }
 
-int new_task(const char *name, void * (*run)(void *), void *arg) {
+int new_task(const char *name, void *(*run)(void *), void *arg) {
 	struct task_trampoline_arg *trampoline_arg;
 	struct thread *thd = NULL;
 	struct task *self_task = NULL;
@@ -95,12 +94,12 @@ int new_task(const char *name, void * (*run)(void *), void *arg) {
 	 * replaced by STACK_SZ
 	 */
 	stack_sz = task_get_stack_size(task_self());
-	stack_sz += sizeof (struct task) + TASK_RESOURCE_SIZE;
+	stack_sz += sizeof(struct task) + TASK_RESOURCE_SIZE;
 
 #if OPTION_GET(NUMBER, task_quantity)
 	assertf(OPTION_GET(NUMBER, resource_size) == TASK_RESOURCE_SIZE,
-			"resource_size (%d) must be set up %d",
-			OPTION_GET(NUMBER, resource_size), TASK_RESOURCE_SIZE);
+	    "resource_size (%d) must be set up %d",
+	    OPTION_GET(NUMBER, resource_size), TASK_RESOURCE_SIZE);
 #endif /* OPTION_GET(NUMBER, task_quantity) */
 
 	sched_lock();
@@ -114,14 +113,13 @@ int new_task(const char *name, void * (*run)(void *), void *arg) {
 		 * Thread does not run until we go through sched_unlock()
 		 */
 		thd = main_thread_create(THREAD_FLAG_NOTASK | THREAD_FLAG_SUSPENDED,
-				stack_sz, task_trampoline, NULL);
+		    stack_sz, task_trampoline, NULL);
 		if (0 != ptr2err(thd)) {
 			res = ptr2err(thd);
 			goto out_unlock;
 		}
 
-		trampoline_arg = thread_stack_alloc(thd,
-				sizeof *trampoline_arg);
+		trampoline_arg = thread_stack_alloc(thd, sizeof *trampoline_arg);
 		if (trampoline_arg == NULL) {
 			res = -ENOMEM;
 			goto out_threadfree;
@@ -131,8 +129,7 @@ int new_task(const char *name, void * (*run)(void *), void *arg) {
 		trampoline_arg->run_arg = arg;
 		thread_set_run_arg(thd, trampoline_arg);
 
-		self_task = thread_stack_alloc(thd,
-				sizeof *self_task + TASK_RESOURCE_SIZE);
+		self_task = thread_stack_alloc(thd, sizeof *self_task + TASK_RESOURCE_SIZE);
 		if (self_task == NULL) {
 			res = -ENOMEM;
 			goto out_threadfree;
@@ -144,7 +141,8 @@ int new_task(const char *name, void * (*run)(void *), void *arg) {
 			goto out_threadfree;
 		}
 
-		task_init(self_task, tid, task_self(), name, thd, task_self()->tsk_priority);
+		task_init(self_task, tid, task_self(), name, thd,
+		    task_self()->tsk_priority);
 
 		res = task_resource_inherit(self_task, task_self());
 		if (res != 0) {
@@ -152,7 +150,7 @@ int new_task(const char *name, void * (*run)(void *), void *arg) {
 		}
 
 		schedee_priority_set(&thd->schedee,
-			schedee_priority_get(&thread_self()->schedee));
+		    schedee_priority_get(&thread_self()->schedee));
 
 		thread_detach(thd);
 		thread_launch(thd);
@@ -173,7 +171,7 @@ out_unlock:
 	return res;
 }
 
-int task_start(struct task *task, void * (*run)(void *), void *arg) {
+int task_start(struct task *task, void *(*run)(void *), void *arg) {
 	struct task_trampoline_arg *trampoline_arg;
 	struct thread *thd = NULL;
 	int res;
@@ -218,7 +216,7 @@ int task_prepare(const char *name) {
 	 * replaced by STACK_SZ
 	 */
 	stack_sz = task_get_stack_size(task_self());
-	stack_sz += sizeof (struct task) + TASK_RESOURCE_SIZE;
+	stack_sz += sizeof(struct task) + TASK_RESOURCE_SIZE;
 
 	sched_lock();
 	{
@@ -231,17 +229,16 @@ int task_prepare(const char *name) {
 		 * Thread does not run until we go through sched_unlock()
 		 */
 		thd = main_thread_create(THREAD_FLAG_NOTASK | THREAD_FLAG_SUSPENDED,
-				stack_sz, task_trampoline, NULL);
+		    stack_sz, task_trampoline, NULL);
 		if (0 != ptr2err(thd)) {
 			res = ptr2err(thd);
 			goto out_unlock;
 		}
 
 		schedee_priority_set(&thd->schedee,
-			schedee_priority_get(&thread_self()->schedee));
+		    schedee_priority_get(&thread_self()->schedee));
 
-		self_task = thread_stack_alloc(thd,
-				sizeof *self_task + TASK_RESOURCE_SIZE);
+		self_task = thread_stack_alloc(thd, sizeof *self_task + TASK_RESOURCE_SIZE);
 		if (self_task == NULL) {
 			res = -ENOMEM;
 			goto out_threadfree;
@@ -253,7 +250,8 @@ int task_prepare(const char *name) {
 			goto out_threadfree;
 		}
 
-		task_init(self_task, tid, task_self(), name, thd, task_self()->tsk_priority);
+		task_init(self_task, tid, task_self(), name, thd,
+		    task_self()->tsk_priority);
 
 		res = task_resource_inherit(self_task, task_self());
 		if (res != 0) {
@@ -277,7 +275,7 @@ out_unlock:
 }
 
 void task_init(struct task *tsk, int id, struct task *parent, const char *name,
-		struct thread *main_thread, task_priority_t priority) {
+    struct thread *main_thread, task_priority_t priority) {
 	assert(tsk != NULL);
 	assert(binalign_check_bound((uintptr_t)tsk, sizeof(void *)));
 
@@ -303,7 +301,7 @@ void task_init(struct task *tsk, int id, struct task *parent, const char *name,
 	set_task_proxy(tsk, parent)
 #endif
 
-	task_setrlim_stack_size(tsk, task_get_stack_size(parent));
+	    task_setrlim_stack_size(tsk, task_get_stack_size(parent));
 
 	tsk->tsk_priority = priority;
 
@@ -357,7 +355,6 @@ void task_do_exit(struct task *task, int status) {
 }
 
 void task_start_exit(void) {
-
 	assert(task_self() != task_kernel_task());
 
 	sched_lock();
@@ -366,7 +363,6 @@ void task_start_exit(void) {
 }
 
 void _NORETURN task_finish_exit(void) {
-
 	assert(critical_inside(CRITICAL_SCHED_LOCK));
 
 	/* Re-schedule */
@@ -378,12 +374,11 @@ void _NORETURN task_finish_exit(void) {
 	panic("Returning from task_exit()");
 }
 
-
 void _NORETURN task_exit(void *res) {
-
 	task_start_exit();
 
-	task_do_exit(task_self(), TASKST_EXITED_MASK | ((intptr_t) res & TASKST_EXITST_MASK));
+	task_do_exit(task_self(),
+	    TASKST_EXITED_MASK | ((intptr_t)res & TASKST_EXITST_MASK));
 
 	task_finish_exit();
 }
@@ -415,10 +410,8 @@ int task_set_priority(struct task *tsk, task_priority_t new_prior) {
 
 		task_foreach_thread(t, tsk) {
 			/* reschedule thread */
-			schedee_priority_set(&t->schedee,
-				SCHED_PRIORITY_NORMAL + new_prior);
+			schedee_priority_set(&t->schedee, SCHED_PRIORITY_NORMAL + new_prior);
 		}
-
 	}
 	sched_unlock();
 
