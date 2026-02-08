@@ -19,7 +19,7 @@
 
 static inline int task_table_add(struct task *tsk) {
 	assert(tsk == task_kernel_task());
-	return 0;
+	return 1;
 }
 
 static inline struct task * task_table_get(int tid) {
