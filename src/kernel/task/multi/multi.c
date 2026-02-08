@@ -11,6 +11,7 @@
 #include <errno.h>
 #include <stdint.h>
 #include <string.h>
+#include <sys/types.h>
 
 #include <framework/mod/options.h>
 #include <kernel/nsproxy.h>
@@ -52,6 +53,22 @@ struct task *task_self(void) {
 	assert(th->task);
 
 	return th->task;
+}
+
+struct task *task_find(pid_t pid) {
+	struct task *task;
+
+	if (pid == 0) {
+		return task_self();
+	}
+
+	task_foreach(task) {
+		if (pid == task->tsk_id) {
+			return task;
+		}
+	}
+
+	return NULL;
 }
 
 static void *task_trampoline(void *arg_) {

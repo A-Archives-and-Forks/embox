@@ -100,6 +100,14 @@ static inline struct task *task_self(void) {
 	return task_kernel_task();
 }
 
+static inline struct task *task_find(pid_t pid) {
+	if (pid == 0 || pid == 1) {
+		return task_kernel_task();
+	}
+
+	return NULL;
+}
+
 static inline int new_task(const char *name, void *(*run)(void *), void *arg) {
 	return -EPERM;
 }

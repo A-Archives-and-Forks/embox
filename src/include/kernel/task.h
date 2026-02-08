@@ -9,15 +9,14 @@
 #ifndef TASK_H_
 #define TASK_H_
 
-
+#include <compiler.h>
 #include <sys/cdefs.h>
 #include <sys/types.h>
 
-#include <kernel/task/task_priority.h>
-#include <module/embox/kernel/task/api.h>
-
 #include <kernel/task/defs.h>
-#include <compiler.h>
+#include <kernel/task/task_priority.h>
+
+#include <module/embox/kernel/task/api.h>
 
 struct thread;
 
@@ -29,10 +28,10 @@ extern int task_get_status(const struct task *tsk);
 
 extern int task_get_id(const struct task *tsk);
 
-extern const char * task_get_name(const struct task *tsk);
+extern const char *task_get_name(const struct task *tsk);
 extern int task_set_name(struct task *tsk, const char *name);
 
-extern struct thread * task_get_main(const struct task *tsk);
+extern struct thread *task_get_main(const struct task *tsk);
 extern void task_set_main(struct task *tsk, struct thread *main_thread);
 
 extern task_priority_t task_get_priority(const struct task *tsk);
@@ -49,6 +48,13 @@ extern void task_set_clock(struct task *tsk, clock_t new_clock);
 extern struct task *task_self(void);
 
 /**
+ * @brief Get task struct by process ID
+ *
+ * @retval Pointer to self task if pid == 0
+ */
+extern struct task *task_find(pid_t pid);
+
+/**
  * @brief Create new task
  *
  * @param name Task name
@@ -59,8 +65,7 @@ extern struct task *task_self(void);
 extern int new_task(const char *name, void *(*run)(void *), void *arg);
 
 extern void task_init(struct task *tsk, int id, struct task *parent,
-		const char *name, struct thread *main_thread,
-		task_priority_t priority);
+    const char *name, struct thread *main_thread, task_priority_t priority);
 
 extern void task_start_exit(void);
 /**
@@ -93,8 +98,7 @@ extern pid_t task_waitpid_posix(pid_t pid, int *status, int options);
  * @return pid of the new task
  */
 extern int task_prepare(const char *name);
-extern int task_start(struct task *task, void * (*run)(void *), void *arg);
-
+extern int task_start(struct task *task, void *(*run)(void *), void *arg);
 
 __END_DECLS
 
@@ -116,7 +120,5 @@ __END_DECLS
 			((tid = task_table_get_first(tid)) >= 0) && \
 			(tsk = task_table_get(tid)); \
 			tid++)
-
-
 
 #endif /* TASK_H_ */
