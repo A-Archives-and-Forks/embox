@@ -18,6 +18,8 @@
 #include <util/log.h>
 #include <util/math.h>
 
+#include "sys/time.h"
+
 EMBOX_UNIT_INIT(nanosleep_init);
 
 struct hw_time {
@@ -34,18 +36,38 @@ static void cs_nanospin(struct clock_source *cs, struct hw_time *hw);
 
 /* XXX: nanosleep is irq sensetive, i.e. rqtp can be exceeded when irq occur
  * after ksleep and before returning from nanosleep. */
-int nanosleep(const struct timespec *rqtp, struct timespec *rmtp) {
+int clock_nanosleep(clockid_t clock_id, int flags, const struct timespec *rqtp,
+    struct timespec *rmtp) {
 	time64_t start, hw_cycles;
 	uint32_t ms_tosleep;
 	int remaining_cycles;
 	struct timespec timetosleep;
 	struct hw_time hw;
 
-	if (rqtp->tv_sec == 0 && rqtp->tv_nsec == 0) {
+	if (clock_id != CLOCK_MONOTONIC && clock_id != CLOCK_REALTIME) {
+		return EINVAL;
+	}
+
+	if (rqtp->tv_sec < 0 || rqtp->tv_nsec < 0
+	    || rqtp->tv_nsec >= (long)NSEC_PER_SEC) {
+		return EINVAL;
+	}
+
+	if ((flags & TIMER_ABSTIME) != 0) {
+		struct timespec now;
+		ktime_get_timespec(&now);
+		timetosleep = timespec_sub(*rqtp, now);
+	}
+	else {
+		timetosleep = *rqtp;
+	}
+
+	if (timetosleep.tv_sec < 0
+	    || (timetosleep.tv_sec == 0 && timetosleep.tv_nsec == 0)) {
 		return ksleep(0);
 	}
 
-	timetosleep = get_timetosleep(rqtp);
+	timetosleep = get_timetosleep(&timetosleep);
 	hw_cycles = timespec_to_hw(&timetosleep,
 	    nanosleep_cs->counter_device->cycle_hz);
 
@@ -69,7 +91,18 @@ int nanosleep(const struct timespec *rqtp, struct timespec *rmtp) {
 		cs_nanospin(nanosleep_cs, &hw);
 	}
 
+	if (rmtp != NULL) {
+		rmtp->tv_nsec = 0;
+		rmtp->tv_sec = 0;
+	}
+
 	return ENOERR;
+}
+
+/* XXX: nanosleep is irq sensetive, i.e. rqtp can be exceeded when irq occur
+ * after ksleep and before returning from nanosleep. */
+int nanosleep(const struct timespec *rqtp, struct timespec *rmtp) {
+	return clock_nanosleep(CLOCK_REALTIME, 0, rqtp, rmtp);
 }
 
 static void cs_nanospin(struct clock_source *cs, struct hw_time *hw) {
@@ -134,7 +167,7 @@ static int nanosleep_init(void) {
 	return 0;
 }
 
-int clock_nanosleep(clockid_t clock_id, int flags,
-						const struct timespec *rqtp, struct timespec *rmtp) {
-	return nanosleep(rqtp, rmtp);
-}
+// int clock_nanosleep(clockid_t clock_id, int flags,
+// 						const struct timespec *rqtp, struct timespec *rmtp) {
+// 	return nanosleep(rqtp, rmtp);
+// }
