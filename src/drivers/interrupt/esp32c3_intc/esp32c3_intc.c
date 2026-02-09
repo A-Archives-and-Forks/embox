@@ -17,7 +17,7 @@
 
 #define INTERRUPT_CORE0_CPU_INT_PRI(cpu_line)	(BASE_ADDR + 0x0118 + 0x4*(cpu_line - 1))
 #define INTERRUPT_CORE0_INTR_MAP(irq) 			(BASE_ADDR + irq * 4)
-#define CPU_LINE 4
+#define CPU_LINE 21
 
 void map_irq_to_cpu(unsigned int irq, unsigned int cpu_line) {
     REG32_STORE(INTERRUPT_CORE0_INTR_MAP(irq), cpu_line);

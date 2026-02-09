@@ -179,6 +179,8 @@ static int esp32c3_uart_setup(struct uart *dev, const struct uart_params *params
     mem_conf_reg |= (1 << UART_TX_SIZE_S) | (1 << UART_RX_SIZE_S);
     REG32_STORE(UART_MEM_CONF(dev->base_addr), mem_conf_reg);
 
+    REG32_ORIN(UART_INT_ENA(dev->base_addr), 1);
+
     return 0;
 }
 
@@ -187,6 +189,7 @@ static int esp32c3_uart_irq_en(struct uart *dev, const struct uart_params *param
 }
 
 static int esp32c3_uart_irq_dis(struct uart *dev, const struct uart_params *params) {
+    REG32_ANDIN(UART_INT_ENA(dev->base_addr), 0);
     return 0;
 }
 
