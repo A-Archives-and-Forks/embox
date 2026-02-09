@@ -18,8 +18,6 @@
 
 #include <framework/mod/options.h>
 
-#define MODOPS_TASK_TIMER_MAX   OPTION_GET(NUMBER, task_timer_max)
-
 struct timer_table {
 	struct task_resource_timer_desc desc[MODOPS_TASK_TIMER_MAX];
 	struct indexator indexator;

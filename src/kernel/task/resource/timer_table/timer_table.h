@@ -17,6 +17,14 @@
 struct sys_timer;
 struct task;
 
+#include <config/embox/kernel/task/resource/timer_table.h>
+
+#include <framework/mod/options.h>
+
+#define MODOPS_TASK_TIMER_MAX   \
+				OPTION_MODULE_GET(embox__kernel__task__resource__timer_table, \
+									NUMBER, task_timer_max)
+
 struct task_resource_timer_desc {
 	timer_t timerid;
 	struct sigevent sigevent;
@@ -25,10 +33,9 @@ struct task_resource_timer_desc {
 	struct sys_timer *sys_timer;
 	struct task *task;
 	int overrun_count;
+	int trtd_raised;
 	struct timespec next_value;
 };
-
-struct task;
 
 __BEGIN_DECLS
 
