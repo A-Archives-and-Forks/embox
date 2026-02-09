@@ -43,6 +43,7 @@ int timer_create(clockid_t clockid, struct sigevent *evp, timer_t *timerid) {
 	desc.sys_timer = sys_timer;
 	desc.task = task_self();
 	desc.overrun_count = 0;
+	desc.trtd_raised = 0;
 
 	task_resource_timer_table_add(task_self(), idx, &desc);
 
@@ -61,6 +62,8 @@ static void timer_handler(struct sys_timer *timer, void *param) {
 	//desc->overrun_count++;
 	clock_gettime(CLOCK_MONOTONIC, &ts);
 	desc->next_value = timespec_add(ts, desc->value.it_interval);
+
+	desc->trtd_raised = 1;
 
 	kill(task_get_id(task), desc->sigevent.sigev_signo);
 }
