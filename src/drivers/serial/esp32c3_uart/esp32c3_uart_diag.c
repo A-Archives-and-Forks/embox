@@ -11,7 +11,6 @@ extern const struct uart_ops esp32c3_uart_ops;
 
 static struct uart esp32c3_uart_diag = {
     .uart_ops   = &esp32c3_uart_ops,
-    .irq_num    = 0,
     .base_addr  = (unsigned long) UART_BASE,
 };
 
