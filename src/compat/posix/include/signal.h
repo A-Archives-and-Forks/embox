@@ -153,6 +153,10 @@ extern int sigwait(const sigset_t * /*restrict*/ set, int * /*restrict*/ sig);
 
 extern const char *const sys_siglist[];
 
+/* Values of the 'ss->ss_flags' arg of sigaltstack() */
+#define SS_ONSTACK 1 /* Process is executing on an alternate signal stack */
+#define SS_DISABLE 2 /* Alternate signal stack is disabled */
+
 #define MINSIGSTKSZ 2048
 extern int sigaltstack(const stack_t *ss, stack_t *oss);
 
