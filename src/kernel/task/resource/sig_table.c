@@ -123,7 +123,7 @@ static void task_sig_table_init(const struct task *task,
 		if (sig < ARRAY_SIZE(default_sig_action)) {
 			sig_table[sig].sa_handler = default_sig_action[sig];
 		} else {
-			sig_table[sig].sa_handler = task_sig_handler_terminate;
+			sig_table[sig].sa_handler = task_sig_handler_ignore;
 		}
 	}
 }
