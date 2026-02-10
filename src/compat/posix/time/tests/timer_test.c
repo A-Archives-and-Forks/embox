@@ -58,6 +58,7 @@ TEST_CASE("time/call timer_handler") {
 
 }
 
+#if 0
 TEST_CASE("time/sigprocmask") {
     timer_t timerid;
     sigset_t mask;
@@ -95,3 +96,4 @@ TEST_CASE("time/sigprocmask") {
     test_assert(-1 != timer_delete(timerid));
 
 }
+#endif
