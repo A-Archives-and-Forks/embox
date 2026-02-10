@@ -66,6 +66,7 @@
 #define EILSEQ           84    /* Illegal byte sequence */
 #define ENOTSUP          95    /* Not supported error */
 
+#define EDQUOT           122   /* Quota exceeded */
 #define ECANCELED        125   /* Operation Canceled */
 
 #define EOWNERDEAD       130   /* Owner died */
