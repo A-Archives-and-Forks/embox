@@ -143,7 +143,7 @@ static int nanosleep_calibrate(void) {
 	log_info("ktime_get_timespec() execution ns: %d", (int)ts.tv_nsec);
 
 	ktime_get_timespec(&t);
-	nanosleep(&rqtp, NULL);
+	clock_nanosleep(CLOCK_MONOTONIC, 0, &rqtp, NULL);
 	ktime_get_timespec(&m);
 	timespecsub(&m, &t, &rqtp);
 
@@ -166,8 +166,3 @@ static int nanosleep_init(void) {
 
 	return 0;
 }
-
-// int clock_nanosleep(clockid_t clock_id, int flags,
-// 						const struct timespec *rqtp, struct timespec *rmtp) {
-// 	return nanosleep(rqtp, rmtp);
-// }
