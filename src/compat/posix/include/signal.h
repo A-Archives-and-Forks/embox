@@ -28,6 +28,8 @@
 
 #define SI_USER 0
 
+#if (MODOP_SHORT_SIG_TABLE == 0)
+
 /* Signals. */
 #define SIGHUP    1       /* (POSIX)    Hangup. */
 #define SIGINT    2       /* (ANSI)     Interrupt. */
@@ -68,6 +70,30 @@
 #define SIGRTMIN 32
 #define SIGRTMAX 63
 
+#else  /* (MODOP_SHORT_SIG_TABLE == 0) */
+
+enum {
+	SIG_ZERO_DEF = 0,
+	SIGINT_DEF,
+	// SIGABRT_DEF,
+	SIGKILL_DEF,
+	// SIGUSR1_DEF,
+	// SIGPIPE_DEF,
+	// SIGALRM_DEF,
+	// SIGTERM_DEF,
+	SIGCHLD_DEF,
+	SIGUNUSED_DEF,
+};
+
+#define SIGINT    ((int)SIGINT_DEF)      /* (ANSI)     Interrupt. */
+#define SIGKILL    ((int)SIGKILL_DEF)
+#define SIGCHLD    ((int)SIGCHLD_DEF)
+
+#define SIGRTMIN SIGUNUSED_DEF
+#define SIGRTMAX _SIG_TOTAL
+
+#endif /* (MODOP_SHORT_SIG_TABLE != 0) */
+
 #define SA_NOCLDSTOP (0x1ul << 0)
 #define SA_NOCLDWAIT (0x1ul << 1)
 #define SA_SIGINFO   (0x1ul << 2)
@@ -76,7 +102,11 @@
 #define SA_NODEFER   (0x1ul << 5)
 #define SA_RESETHAND (0x1ul << 6)
 
-#define IS_UNMODIFIABLE_SIGNAL(sig) ((sig) == SIGKILL || (sig) == SIGSTOP)
+#if defined(SIGSTOP)
+# define IS_UNMODIFIABLE_SIGNAL(sig) ((sig) == SIGKILL || (sig) == SIGSTOP)
+#else
+# define IS_UNMODIFIABLE_SIGNAL(sig) ((sig) == SIGKILL)
+#endif
 
 __BEGIN_DECLS
 

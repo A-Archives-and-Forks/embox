@@ -12,6 +12,10 @@
 #include <framework/mod/options.h>
 #include <module/embox/kernel/task/resource/sig_table.h>
 
+#define MODOP_SHORT_SIG_TABLE \
+	OPTION_MODULE_GET(embox__kernel__task__resource__sig_table, \
+		NUMBER, short_sig_table)
+
 #define _SIG_TOTAL \
 	OPTION_MODULE_GET(embox__kernel__task__resource__sig_table, \
 		NUMBER, sig_table_size)
