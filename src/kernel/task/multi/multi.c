@@ -85,8 +85,8 @@ static void *task_trampoline(void *arg_) {
 	return res;
 }
 
-static rlim_t task_get_stack_size(struct task *parent) {
-	rlim_t stack_sz;
+static size_t task_get_stack_size(struct task *parent) {
+	size_t stack_sz;
 
 	if (parent) {
 		stack_sz = task_getrlim_stack_size(parent);
@@ -103,7 +103,7 @@ int new_task(const char *name, void *(*run)(void *), void *arg) {
 	struct thread *thd = NULL;
 	struct task *self_task = NULL;
 	int res, tid;
-	rlim_t stack_sz;
+	size_t stack_sz;
 
 	/**
 	 * stack_sz has effect only when task_quantity has value
@@ -225,7 +225,7 @@ int task_prepare(const char *name) {
 	struct thread *thd = NULL;
 	struct task *self_task = NULL;
 	int res, tid;
-	rlim_t stack_sz;
+	size_t stack_sz;
 
 	/**
 	 * stack_sz has effect only when task_quantity has value
@@ -315,10 +315,10 @@ void task_init(struct task *tsk, int id, struct task *parent, const char *name,
 	}
 
 #if defined(NET_NAMESPACE_ENABLED) && (NET_NAMESPACE_ENABLED == 1)
-	set_task_proxy(tsk, parent)
+	set_task_proxy(tsk, parent);
 #endif
 
-	    task_setrlim_stack_size(tsk, task_get_stack_size(parent));
+	task_setrlim_stack_size(tsk, task_get_stack_size(parent));
 
 	tsk->tsk_priority = priority;
 

@@ -166,7 +166,7 @@ out_unlock:
 
 struct thread *thread_create(unsigned int flags,
 		void *(*run)(void *), void *arg) {
-	rlim_t stack_sz;
+	size_t stack_sz;
 
 	if (flags & THREAD_FLAG_NOTASK) {
 		stack_sz = THREAD_DEFAULT_STACK_SIZE;

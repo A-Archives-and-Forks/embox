@@ -14,7 +14,6 @@
 #include <errno.h>
 #include <string.h>
 #include <sys/cdefs.h>
-#include <sys/resource.h>
 #include <sys/types.h>
 #include <time.h>
 
@@ -134,11 +133,11 @@ static inline void task_thread_unregister(struct task *tsk, struct thread *t) {
 	 */
 }
 
-static inline rlim_t task_getrlim_stack_size(struct task *tsk) {
+static inline size_t task_getrlim_stack_size(struct task *tsk) {
 	return THREAD_DEFAULT_STACK_SIZE;
 }
 
-static inline void task_setrlim_stack_size(struct task *tsk, rlim_t stack_sz) {
+static inline void task_setrlim_stack_size(struct task *tsk, size_t stack_sz) {
 	/* do nothing */
 }
 
