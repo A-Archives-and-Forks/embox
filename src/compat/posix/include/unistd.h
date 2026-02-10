@@ -299,6 +299,7 @@ extern char *getpass_r(const char *prompt, char *buf, size_t buflen);
 extern int gethostname(char *name, size_t len);
 
 extern int chown(const char *path, uid_t owner, gid_t group);
+extern int lchown(const char *path, uid_t owner, gid_t group);
 
 extern unsigned int alarm(unsigned seconds);
 

@@ -14,3 +14,5 @@ int chown(const char *path, uid_t owner_id, gid_t group_id) {
 	log_warning(">>> %s", __func__);
 	return -ENOSYS;
 }
+
+__strong_alias(lchown, chown);
