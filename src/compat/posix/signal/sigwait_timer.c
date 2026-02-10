@@ -32,10 +32,7 @@ int sigwait(const sigset_t *set, int *sig) {
 		return -EINVAL;
 	}
 
-	//SCHED_WAIT(desc->trtd_raised);
-	while (!desc->trtd_raised) {
-		//sleep(0);
-	}
+	SCHED_WAIT(desc->trtd_raised);
 
 	*sig = signo;
 
