@@ -50,7 +50,7 @@ static inline int task_get_status(const struct task *tsk) {
 
 static inline int task_get_id(const struct task *tsk) {
 	assert(tsk == task_kernel_task());
-	return 0;
+	return 1;
 }
 
 static inline const char *task_get_name(const struct task *tsk) {
