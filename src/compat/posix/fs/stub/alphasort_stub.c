@@ -1,5 +1,4 @@
 /**
- * @file
  * @brief
  *
  * @author Aleksey Zhmulin
@@ -12,5 +11,5 @@
 
 int alphasort(const struct dirent **d1, const struct dirent **d2) {
 	log_warning(">>> %s", __func__);
-	return 0;
+	return -1;
 }

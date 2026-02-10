@@ -5,7 +5,6 @@
  * @author Aleksey Zhmulin
  */
 
-#include <errno.h>
 #include <stddef.h>
 #include <unistd.h>
 

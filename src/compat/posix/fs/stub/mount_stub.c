@@ -5,17 +5,17 @@
  * @author Aleksey Zhmulin
  */
 
-#include <errno.h>
+#include <sys/mount.h>
 
 #include <util/log.h>
 
 int mount(const char *source, const char *target, const char *filesystemtype,
     unsigned long mountflags, const void *data) {
 	log_warning(">>> %s", __func__);
-	return -ENOSYS;
+	return -1;
 }
 
 int umount(const char *target) {
 	log_warning(">>> %s", __func__);
-	return -ENOSYS;
+	return -1;
 }

@@ -5,7 +5,6 @@
  * @author Aleksey Zhmulin
  */
 
-#include <errno.h>
 #include <sys/types.h>
 #include <unistd.h>
 
@@ -13,5 +12,5 @@
 
 int ftruncate(int fd, off_t length) {
 	log_warning(">>> %s", __func__);
-	return -ENOSYS;
+	return -1;
 }

@@ -1,7 +1,7 @@
 package embox.compat.posix
 
 static module file_system_stub extends file_system {
-	option string log_level="LOG_WARNING"
+	option string log_level="LOG_NONE"
 
 	source "alphasort_stub.c"
 	source "chdir_stub.c"

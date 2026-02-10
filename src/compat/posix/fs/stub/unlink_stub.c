@@ -5,12 +5,11 @@
  * @author Aleksey Zhmulin
  */
 
-#include <errno.h>
 #include <unistd.h>
 
 #include <util/log.h>
 
 int unlink(const char *pathname) {
 	log_warning(">>> %s", __func__);
-	return -ENOSYS;
+	return -1;
 }
