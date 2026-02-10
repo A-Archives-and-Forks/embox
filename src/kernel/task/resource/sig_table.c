@@ -33,18 +33,35 @@ static void task_sig_handler_ignore(int sig) {
 #define Stop task_sig_handler_terminate /* FIXME */
 #define Cont task_sig_handler_ignore    /* FIXME */
 
+typedef void (*_task_sig_handler_t)(int);
+
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Winitializer-overrides"
 #endif
 
+
 // When we initialize array below some keys override previous ones
 // because they are defined as the some integers. So, warning is disabled
-
-typedef void (*_task_sig_handler_t)(int);
+#if MODOP_SHORT_SIG_TABLE
 static const _task_sig_handler_t default_sig_action[] = {
+	[0]	        = NULL,
+	[SIGINT]	= Term, 
+	// [SIGABRT]	= Core,
+	[SIGKILL]	= Term,
+	// [SIGUSR1]	= Term,
+	// [SIGPIPE]	= Term,
+	// [SIGALRM]	= Term,
+	// [SIGTERM]	= Term,
+	[SIGCHLD]	= Ign,
+};
+
+#else
+
+static const _task_sig_handler_t default_sig_action[] = {
+	[0]	        = NULL,
 	[SIGHUP]	= Term,
-	[SIGINT]	= Term,
+	[SIGINT]	= Term, 
 	[SIGQUIT]	= Core,
 	[SIGILL]	= Core,
 	[SIGTRAP]	= Core,
@@ -77,6 +94,7 @@ static const _task_sig_handler_t default_sig_action[] = {
 	[SIGPWR]	= Term,
 	[SIGSYS]	= Core,
 };
+#endif /* SHORT_SIG_TABLE */
 
 #ifdef __clang__
 #pragma clang diagnostic pop
@@ -101,10 +119,12 @@ static void task_sig_table_init(const struct task *task,
 
 	for (sig = 0; sig < _SIG_TOTAL; ++sig) {
 		sig_table[sig].sa_flags = 0;
-		memset(&sig_table[sig].sa_mask, 0,
-				sizeof sig_table[sig].sa_mask);;
-		sig_table[sig].sa_handler = sig < ARRAY_SIZE(default_sig_action) ?
-			default_sig_action[sig] : task_sig_handler_terminate;
+		memset(&sig_table[sig].sa_mask, 0, sizeof sig_table[sig].sa_mask);
+		if (sig < ARRAY_SIZE(default_sig_action)) {
+			sig_table[sig].sa_handler = default_sig_action[sig];
+		} else {
+			sig_table[sig].sa_handler = task_sig_handler_terminate;
+		}
 	}
 }
 
