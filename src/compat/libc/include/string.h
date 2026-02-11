@@ -613,6 +613,10 @@ extern size_t strlcat(char *dst, const char *src, size_t size);
  */
 extern size_t strlcpy(char *dst, const char *src, size_t size);
 
+
+/* stubs */
+extern char *strsignal(int signum);
+
 __END_DECLS
 
 /* For compatibility with Linux */
