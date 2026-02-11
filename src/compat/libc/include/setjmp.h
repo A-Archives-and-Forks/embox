@@ -53,6 +53,9 @@ extern int setjmp(jmp_buf env);
  */
 extern void _NORETURN longjmp(jmp_buf env, int value);
 
+extern void siglongjmp(sigjmp_buf env, int val);
+extern int sigsetjmp(sigjmp_buf, int);
+
 __END_DECLS
 
 #endif /* COMPAT_LIBC_SETJMP_H_ */
