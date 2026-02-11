@@ -14,13 +14,13 @@
 #include <time.h>
 
 EMBOX_TEST_SUITE("signal/sigwait");
-
+#if 1
 TEST_CASE("signal/sigwait ") {
     sigset_t sigset;
     timer_t timerid;
     struct sigevent sev;
     struct itimerspec ts;
-    int sig;
+    int sig = 0;
 
     sigemptyset(&sigset);
     sigaddset(&sigset, SIGRTMIN);
@@ -30,18 +30,15 @@ TEST_CASE("signal/sigwait ") {
     sev.sigev_signo = SIGRTMIN;
     timer_create(CLOCK_REALTIME, &sev, &timerid);
 
-
-    ts.it_value.tv_sec = 1;
-    ts.it_value.tv_nsec = 0;
+    ts.it_value.tv_sec = 0;
+    ts.it_value.tv_nsec = 100000000;
     ts.it_interval.tv_sec = 0;
-    ts.it_interval.tv_nsec = 500000000;
+    ts.it_interval.tv_nsec = 100000000;
     timer_settime(timerid, 0, &ts, NULL);
 
-    // 4. Wait for timer
+    sigwait(&sigset, &sig);
 
-    while(1) {
-        sigwait(&sigset, &sig);
-        printf("Timer expired\n");
-    }
-
+    test_assert(sig == SIGRTMIN);
+    sigdelset(&sigset, SIGRTMIN);
 }
+#endif

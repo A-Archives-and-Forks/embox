@@ -36,7 +36,7 @@ module cyclictest {
 	@NoRuntime depends embox.compat.posix.sys.mman.shm_mem
 	@NoRuntime depends embox.compat.linux.syscall_stub
     depends embox.compat.posix.time.nanosleep
-	@NoRuntime depends embox.compat.posix.signal.sigwait_stub
+	@NoRuntime depends embox.compat.posix.signal.sigwait
 	@NoRuntime depends embox.compat.posix.time.timer
 	@NoRuntime depends embox.compat.posix.sys.time.itimer_stub
 	@NoRuntime depends embox.compat.posix.sys.mman.mmap_api
