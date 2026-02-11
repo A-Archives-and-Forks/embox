@@ -12,8 +12,6 @@
 #include <sys/cdefs.h>
 #include <setjmp.h>
 
-typedef jmp_buf sigjmp_buf;
-
 typedef struct regex {
 	size_t re_nsub; /** number of parenthesised subexpressions */
 	void *regex_extended;

@@ -1,9 +1,8 @@
 /**
- * @file
  * @brief
  *
- * @author Aleksey Zhmulin
  * @date 25.05.25
+ * @author Aleksey Zhmulin
  */
 
 #include <dirent.h>

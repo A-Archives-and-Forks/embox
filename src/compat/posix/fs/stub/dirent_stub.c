@@ -6,7 +6,6 @@
  */
 
 #include <dirent.h>
-#include <errno.h>
 #include <stddef.h>
 
 #include <util/log.h>
@@ -18,7 +17,7 @@ DIR *opendir(const char *path) {
 
 int closedir(DIR *dir) {
 	log_warning(">>> %s", __func__);
-	return -ENOSYS;
+	return -1;
 }
 
 struct dirent *readdir(DIR *dir) {

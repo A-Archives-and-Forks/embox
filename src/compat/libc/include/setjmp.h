@@ -22,6 +22,7 @@ __BEGIN_DECLS
  * calling environment.
  */
 typedef __jmp_buf jmp_buf;
+typedef jmp_buf sigjmp_buf;
 
 /**
  * Sets up the local buffer and initializes it for the jump. This routine saves

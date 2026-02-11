@@ -14,7 +14,6 @@
 #include <errno.h>
 #include <string.h>
 #include <sys/cdefs.h>
-#include <sys/resource.h>
 #include <sys/types.h>
 #include <time.h>
 
@@ -51,7 +50,7 @@ static inline int task_get_status(const struct task *tsk) {
 
 static inline int task_get_id(const struct task *tsk) {
 	assert(tsk == task_kernel_task());
-	return 0;
+	return 1;
 }
 
 static inline const char *task_get_name(const struct task *tsk) {
@@ -100,6 +99,14 @@ static inline struct task *task_self(void) {
 	return task_kernel_task();
 }
 
+static inline struct task *task_find(pid_t pid) {
+	if (pid == 0 || pid == 1) {
+		return task_kernel_task();
+	}
+
+	return NULL;
+}
+
 static inline int new_task(const char *name, void *(*run)(void *), void *arg) {
 	return -EPERM;
 }
@@ -126,11 +133,11 @@ static inline void task_thread_unregister(struct task *tsk, struct thread *t) {
 	 */
 }
 
-static inline rlim_t task_getrlim_stack_size(struct task *tsk) {
+static inline size_t task_getrlim_stack_size(struct task *tsk) {
 	return THREAD_DEFAULT_STACK_SIZE;
 }
 
-static inline void task_setrlim_stack_size(struct task *tsk, rlim_t stack_sz) {
+static inline void task_setrlim_stack_size(struct task *tsk, size_t stack_sz) {
 	/* do nothing */
 }
 

@@ -32,6 +32,4 @@ int stat(const char *path, struct stat *buf) {
 	return ret;
 }
 
-int lstat(const char *path, struct stat *buf) {
-	return stat(path, buf);
-}
+__strong_alias(lstat, stat);

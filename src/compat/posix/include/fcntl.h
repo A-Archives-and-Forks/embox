@@ -14,21 +14,6 @@
 #include <sys/cdefs.h>
 #include <sys/stat.h>
 
-__BEGIN_DECLS
-
-/* int open (const char *path, int __oflag);
- * int open (const char *path, int __oflag, mode_t mode);
- */
-extern int open(const char *path, int __oflag, ...);
-extern int openat(int fildes, const char *path, int __oflag, ...);
-
-/*
- * shall be equivalent to: open(path, O_WRONLY|O_CREAT|O_TRUNC, mode)
- */
-extern int creat(const char *pathname, mode_t mode);
-
-extern int fcntl(int fd, int cmd, ...);
-
 /* fcntl commands */
 #define F_GETFD      0
 #define F_SETFD      1
@@ -86,6 +71,9 @@ extern int fcntl(int fd, int cmd, ...);
 /* TODO not POSIX */
 #define O_CLOEXEC  FD_CLOEXEC
 
+/* Special file descriptors*/
+#define AT_FDCWD -100 /* use the current working directory */
+
 struct flock {
 	short l_type;   /* Type of lock; F_RDLCK, F_WRLCK, F_UNLCK. */
 	short l_whence; /* Flag for starting offset. */
@@ -93,6 +81,18 @@ struct flock {
 	off_t l_len;    /* Size; if 0 then until EOF. */
 	pid_t l_pid; /* Process ID of the process holding the lock; returned with F_GETLK. */
 };
+
+__BEGIN_DECLS
+
+extern int open(const char *path, int __oflag, ... /* mode_t mode */);
+extern int openat(int fildes, const char *path, int __oflag, ... /* mode_t mode */);
+
+/*
+ * shall be equivalent to: open(path, O_WRONLY|O_CREAT|O_TRUNC, mode)
+ */
+extern int creat(const char *pathname, mode_t mode);
+
+extern int fcntl(int fd, int cmd, ...);
 
 __END_DECLS
 

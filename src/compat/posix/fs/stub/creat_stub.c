@@ -5,7 +5,6 @@
  * @author Aleksey Zhmulin
  */
 
-#include <errno.h>
 #include <fcntl.h>
 #include <sys/types.h>
 
@@ -13,5 +12,5 @@
 
 int creat(const char *pathname, mode_t mode) {
 	log_warning(">>> %s", __func__);
-	return -ENOSYS;
+	return -1;
 }

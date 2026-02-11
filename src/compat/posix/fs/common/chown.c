@@ -29,3 +29,5 @@ int chown(const char *path, uid_t owner, gid_t group) {
 
 	return 0;
 }
+
+__strong_alias(lchown, chown);
