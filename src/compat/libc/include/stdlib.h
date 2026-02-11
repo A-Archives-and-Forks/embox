@@ -233,6 +233,20 @@ extern size_t wcstombs(char *mbstr, const wchar_t *wcstr, size_t max);
 
 extern char *gcvt(double number, size_t ndigit, char *buf);
 
+/* stubs*/
+extern int heapsort(void *base, size_t nmemb, size_t size,
+	int (*compar)(const void *, const void *));
+
+extern void *aligned_alloc(size_t alignment, size_t size);
+
+extern int mergesort(void *base, size_t nel, size_t width,
+              int (*compar)(const void *, const void *));
+
+/* _BSD_SOURCE */
+extern int radixsort (const unsigned char **base, int nmemb,
+	const unsigned char *table, unsigned endbyte);
+// extern int sradixsort (const unsigned char **base int nmemb const unsigned char *table unsigned endbyte);
+
 __END_DECLS
 
 #endif /* COMPAT_LIBC_STDLIB_H_ */
