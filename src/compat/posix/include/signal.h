@@ -108,6 +108,11 @@ enum {
 # define IS_UNMODIFIABLE_SIGNAL(sig) ((sig) == SIGKILL)
 #endif
 
+#define CLD_EXITED          0x01
+#define CLD_KILLED          0x02
+#define CLD_STOPPED         0x03
+#define CLD_CONTINUED       0x04
+
 __BEGIN_DECLS
 
 #ifdef __clang__
@@ -158,6 +163,7 @@ extern int sigdelset(sigset_t *, int signo);
 #define SIG_BLOCK   0
 #define SIG_SETMASK 1
 #define SIG_UNBLOCK 1
+
 static inline int sigprocmask(int how, const sigset_t *set, sigset_t *oldset) {
 	(void)how;
 	(void)set;
