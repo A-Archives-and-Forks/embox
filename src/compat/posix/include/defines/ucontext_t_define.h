@@ -8,8 +8,7 @@
 #ifndef SRC_COMPAT_POSIX_INCLUDE_DEFINES_UCONTEXT_T_DEFINE_H_
 #define SRC_COMPAT_POSIX_INCLUDE_DEFINES_UCONTEXT_T_DEFINE_H_
 
-#include <ucontext.h> /* mcontext_t */
-
+#include <defines/mcontext_t_define.h>
 #include <defines/sigset_t_define.h>
 #include <defines/stack_t_define.h>
 
