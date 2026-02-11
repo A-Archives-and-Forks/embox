@@ -72,6 +72,10 @@ extern void timerclear(struct timeval *tvp);
 
 extern int timerisset(struct timeval *tvp);
 
+/* stubs */
+extern int futimes(int fd, const struct timeval tv[2]);
+// extern int lutimes(const char *path, const struct timeval tv[2]);
+
 #define timercmp(a, b, CMP)       \
 	(((a)->tv_sec CMP(b)->tv_sec) \
 	    || (((a)->tv_sec == (b)->tv_sec) && ((a)->tv_usec CMP(b)->tv_usec)))
