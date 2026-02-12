@@ -1,0 +1,11 @@
+package embox.compat.libc.setjmp
+
+@DefaultImpl(sigsetjmp_stub)
+abstract module sigsetjmp {
+}
+
+module sigsetjmp_stub extends sigsetjmp {
+	option string log_level = "LOG_DEBUG"
+
+	source "sigsetjmp_stub.c"
+}
