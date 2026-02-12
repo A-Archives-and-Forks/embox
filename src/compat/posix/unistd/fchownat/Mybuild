@@ -1,0 +1,11 @@
+package embox.compat.posix.unistd
+
+@DefaultImpl(fchownat_stub)
+abstract module fchownat {
+}
+
+module fchownat_stub extends fchownat {
+	option string log_level = "LOG_DEBUG"
+
+	source "fchownat_stub.c"
+}

@@ -1,0 +1,11 @@
+package embox.compat.posix.unistd
+
+@DefaultImpl(fchown_stub)
+abstract module fchown {
+}
+
+module fchown_stub extends fchown {
+	option string log_level = "LOG_DEBUG"
+
+	source "fchown_stub.c"
+}
