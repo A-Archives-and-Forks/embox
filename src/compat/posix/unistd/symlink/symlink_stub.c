@@ -13,6 +13,7 @@
 #include <unistd.h>
 
 int symlink(const char *path1, const char *path2) {
+	log_debug(">>> %s %s %s", __func__, path1, path2);
 	SET_ERRNO(-ENOSYS);
 	return -1;
 }
