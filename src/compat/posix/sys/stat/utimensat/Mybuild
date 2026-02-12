@@ -1,0 +1,11 @@
+package embox.compat.posix.sys.stat
+
+@DefaultImpl(utimensat_stub)
+abstract module utimensat {
+}
+
+module utimensat_stub extends utimensat {
+	option string log_level = "LOG_DEBUG"
+
+	source "utimensat_stub.c"
+}
