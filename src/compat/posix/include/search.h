@@ -18,9 +18,9 @@
 __BEGIN_DECLS
 
 extern void *lsearch(const void *key, void *base, size_t *nelp, size_t width,
-       int (*compar)(const void *, const void *));
+                    int (*compar)(const void *, const void *));
 extern void *lfind(const void *key, const void *base, size_t *nelp,
-       size_t width, int (*compar)(const void *, const void *));
+                    size_t width, int (*compar)(const void *, const void *));
 
 __END_DECLS
 
