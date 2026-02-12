@@ -125,7 +125,7 @@ __BEGIN_DECLS
  * Get file status (size, mode, mtime and so on)
  */
 extern int chmod(const char *path, mode_t mode);
-/* extern int fchmod(int fildes, mode_t mode); */
+
 extern int stat(const char *, struct stat *);
 extern int lstat(const char *, struct stat *);
 extern int fstat(int fd, struct stat *);
@@ -133,6 +133,14 @@ extern int mkfifo(const char *, mode_t);
 extern int mknod(const char *, mode_t, dev_t);
 extern int mkdir(const char *, mode_t);
 extern mode_t umask(mode_t mode);
+
+/* stubs */
+extern int fchmod(int fildes, mode_t mode);
+
+extern int fstatat(int fd, const char */*restrict*/ path,
+       					struct stat */* restrict */ buf, int flag);
+extern int utimensat(int dirfd, const char *pathname,
+              const struct timespec times[2], int flags);
 
 __END_DECLS
 

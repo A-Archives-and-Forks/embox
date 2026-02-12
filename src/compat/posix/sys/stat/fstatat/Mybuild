@@ -1,0 +1,11 @@
+package embox.compat.posix.sys.stat
+
+@DefaultImpl(fstatat_stub)
+abstract module fstatat {
+}
+
+module fstatat_stub extends fstatat {
+	option string log_level = "LOG_DEBUG"
+
+	source "fstatat_stub.c"
+}

@@ -1,0 +1,11 @@
+package embox.compat.posix.unistd
+
+@DefaultImpl(symlink_stub)
+abstract module symlink {
+}
+
+module symlink_stub extends symlink {
+	option string log_level = "LOG_DEBUG"
+
+	source "symlink_stub.c"
+}

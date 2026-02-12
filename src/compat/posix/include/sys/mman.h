@@ -29,6 +29,8 @@ __BEGIN_DECLS
 #define MAP_FIXED     0x40
 #define MAP_ANONYMOUS 0x80
 
+#define MAP_FILE      0x00 /* ignored */
+
 /* Linux */
 #define MAP_LOCKED    0x800
 
@@ -63,6 +65,7 @@ extern void *mmap_device_memory(void *addr, size_t len, int prot, int flags,
 #define MCL_FUTURE        0x1
 
 static inline int mlockall(int flags) {
+    (void)flags;
     return 0;
 }
 
@@ -71,8 +74,17 @@ static inline int munlockall(void) {
 }
 
 static inline int mlock(const void *addr, size_t len) {
+    (void)addr;
+    (void)len;
+
     return 0;
 }
+
+/* stubs*/
+#define MADV_NORMAL  0x00
+#define MADV_RANDOM  0x01
+
+extern  int madvise(void *start, size_t length, int advice);
 
 __END_DECLS
 

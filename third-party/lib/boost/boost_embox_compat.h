@@ -31,7 +31,7 @@ namespace std {
 }
 
 #define RLIM_INFINITY 0
-
+#if 0
 static inline int symlink(const char *oldpath, const char *newpath) {
 	printf("boost>>> %s\n", __func__);
 	return -1;
@@ -41,6 +41,7 @@ static inline int utime(const char *filename, const struct utimbuf *times) {
 	printf("boost>>> %s\n", __func__);
 	return -1;
 }
+#endif
 
 static inline long pathconf(char *path, int name) {
 	printf("boost>>> %s\n", __func__);
@@ -52,11 +53,12 @@ static inline long pathconf(char *path, int name) {
 static inline int statvfs(const char *path, struct statvfs *buf) {
 	return -1;
 }
-
+#if 0
 static inline int link(const char *oldpath, const char *newpath) {
 	printf("boost>>> %s\n", __func__);
 	return -1;
 }
+#endif
 
 #include <pthread.h>
 

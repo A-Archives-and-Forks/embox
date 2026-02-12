@@ -1,0 +1,11 @@
+package embox.compat.posix.unistd
+
+@DefaultImpl(fdatasync_stub)
+abstract module fdatasync {
+}
+
+module fdatasync_stub extends fdatasync {
+	option string log_level = "LOG_DEBUG"
+
+	source "fdatasync_stub.c"
+}

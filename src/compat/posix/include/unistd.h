@@ -26,6 +26,8 @@
 #define _SC_CLK_TCK          2
 #define _SC_GETPW_R_SIZE_MAX 3
 #define _SC_ATEXIT_MAX       4
+#define _SC_MAPPED_FILES     5
+
 /*not posix */
 #define _SC_NPROCESSORS_ONLN 103
 #define _SC_NPROCESSORS_CONF _SC_NPROCESSORS_ONLN
@@ -63,7 +65,6 @@ _SC_IOV_MAX
 _SC_JOB_CONTROL
 _SC_LINE_MAX
 _SC_LOGIN_NAME_MAX
-_SC_MAPPED_FILES
 _SC_MEMLOCK
 _SC_MEMLOCK_RANGE
 _SC_MEMORY_PROTECTION
@@ -179,8 +180,6 @@ extern int execl(const char *path, const char *arg, ...);
 extern int execle(const char *path, const char *arg, ...);
 extern int execlp(const char *file, const char *arg, ...);
 
-// extern int link(const char *oldpath, const char *newpath);
-// extern ssize_t readlinkat(int fd, const char *path, char *buf, size_t bufsize);
 extern ssize_t readlink(const char *path, char *buf, size_t bufsize);
 
 extern int unlink(const char *pathname);
@@ -308,6 +307,13 @@ extern unsigned int alarm(unsigned seconds);
  *******************************************/
 static inline void sync(void) {
 }
+
+extern int fchown(int fildes, uid_t owner, gid_t group);
+extern int fdatasync(int fildes);
+extern int symlink(const char *path1, const char *path2);
+extern int link(const char *path1, const char *path2);
+extern int fchownat(int fd, const char *path, uid_t owner, gid_t group,
+           int flag);
 
 __END_DECLS
 

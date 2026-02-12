@@ -1,0 +1,11 @@
+package embox.compat.posix.sys.stat
+
+@DefaultImpl(fchmod_stub)
+abstract module fchmod {
+}
+
+module fchmod_stub extends fchmod {
+	option string log_level = "LOG_DEBUG"
+
+	source "fchmod_stub.c"
+}

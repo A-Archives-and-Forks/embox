@@ -50,3 +50,7 @@ static module str_dup {
 	/* for malloc() */
 	@NoRuntime depends embox.mem.heap_api
 }
+
+static module strsignal {
+	source "strsignal"
+}

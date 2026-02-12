@@ -11,10 +11,11 @@ static module stubs {
 		"getdtablesize.c",
 		"getgroups.c",
 		"getppid.c",
-		"link.c",
-		"readlinkat.c",
 		"setpgid.c",
 		"setsid.c"
+
+		depends embox.compat.posix.fcntl.readlinkat
+		depends embox.compat.posix.unistd.link
 
 		depends embox.compat.posix.signal.sigsuspend_stub
 

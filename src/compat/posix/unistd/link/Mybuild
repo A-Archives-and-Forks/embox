@@ -1,0 +1,11 @@
+package embox.compat.posix.unistd
+
+@DefaultImpl(link_stub)
+abstract module link {
+}
+
+module link_stub extends link {
+	option string log_level = "LOG_DEBUG"
+
+	source "link_stub.c"
+}

@@ -94,6 +94,14 @@ extern int creat(const char *pathname, mode_t mode);
 
 extern int fcntl(int fd, int cmd, ...);
 
+/* stubs */
+extern ssize_t readlinkat(int fd, const char */*restrict*/ path,
+       char */* restrict */ buf, size_t bufsize);
+
+extern ssize_t splice(int fd_in, off_t */*_Nullable */ off_in,
+                      int fd_out, off_t */*_Nullable */ off_out,
+                      size_t size, unsigned int flags);
+
 __END_DECLS
 
 #endif /* COMPAT_POSIX_FCNTL_H_ */

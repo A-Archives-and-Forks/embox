@@ -106,6 +106,9 @@ extern int sched_setaffinity(pid_t pid, size_t cpusetsize,
 extern int sched_getaffinity(pid_t pid, size_t cpusetsize,
 	cpu_set_t *mask);
 
+/* stubs */
+extern int unshare(int flags);
+
 __END_DECLS
 
 #endif /* POSIX_SCHED_H_ */
