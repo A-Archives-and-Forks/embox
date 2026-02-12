@@ -134,11 +134,11 @@ extern int mknod(const char *, mode_t, dev_t);
 extern int mkdir(const char *, mode_t);
 extern mode_t umask(mode_t mode);
 
+/* stubs */
 extern int fchmod(int fildes, mode_t mode);
 
-extern int fdatasync(int fildes);
 extern int fstatat(int fd, const char */*restrict*/ path,
-       struct stat */* restrict */ buf, int flag);
+       					struct stat */* restrict */ buf, int flag);
 extern int utimensat(int dirfd, const char *pathname,
               const struct timespec times[2], int flags);
 

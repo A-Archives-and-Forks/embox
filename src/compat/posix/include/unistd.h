@@ -311,6 +311,7 @@ static inline void sync(void) {
 }
 
 extern int fchown(int fildes, uid_t owner, gid_t group);
+extern int fdatasync(int fildes);
 extern int symlink(const char *path1, const char *path2);
 extern int link(const char *path1, const char *path2);
 extern int fchownat(int fd, const char *path, uid_t owner, gid_t group,
