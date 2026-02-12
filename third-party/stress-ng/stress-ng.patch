@@ -1,0 +1,116 @@
+diff -aur ./stress-ng-0.20.00/Makefile ../build/extbld/third_party/cmd/stress_ng/stress-ng-0.20.00/Makefile
+--- ./stress-ng-0.20.00/Makefile	2026-01-01 01:52:06.000000000 +0300
++++ ../build/extbld/third_party/cmd/stress_ng/stress-ng-0.20.00/Makefile	2026-02-12 18:15:57.338392395 +0300
+@@ -138,7 +138,7 @@
+ MACHINE := $(shell make -f Makefile.machine)
+ ifneq ($(PRESERVE_CFLAGS),1)
+ ifneq ($(MACHINE),$(filter $(MACHINE),alpha hppa ia64))
+-flag = -Wformat -fstack-protector-strong -Werror=format-security
++flag = -Wformat -Werror=format-security
+ #
+ # add -D_FORTIFY_SOURCE=2 if _FORTIFY_SOURCE is not already defined
+ #
+@@ -264,7 +264,7 @@
+ # Static flags, only to be used when using GCC
+ #
+ ifeq ($(STATIC),1)
+-override LDFLAGS += -static -z muldefs -ffunction-sections -fdata-sections -Wl,--gc-sections
++override LDFLAGS += -static -ffunction-sections -fdata-sections
+ override CFLAGS += -DBUILD_STATIC
+ endif
+ 
+@@ -561,7 +561,6 @@
+ 	stress-handle.c \
+ 	stress-hash.c \
+ 	stress-hdd.c \
+-	stress-heapsort.c \
+ 	stress-hrtimers.c \
+ 	stress-hsearch.c \
+ 	stress-hyperbolic.c \
+@@ -590,7 +589,6 @@
+ 	stress-landlock.c \
+ 	stress-lease.c \
+ 	stress-led.c \
+-	stress-link.c \
+ 	stress-list.c \
+ 	stress-llc-affinity.c \
+ 	stress-loadavg.c \
+@@ -602,7 +600,6 @@
+ 	stress-logmath.c \
+ 	stress-longjmp.c \
+ 	stress-loop.c \
+-	stress-lsearch.c \
+ 	stress-lsm.c \
+ 	stress-madvise.c \
+ 	stress-malloc.c \
+@@ -611,11 +608,9 @@
+ 	stress-mcontend.c \
+ 	stress-membarrier.c \
+ 	stress-memcpy.c \
+-	stress-memfd.c \
+ 	stress-memhotplug.c \
+ 	stress-memrate.c \
+ 	stress-memthrash.c \
+-	stress-mergesort.c \
+ 	stress-metamix.c \
+ 	stress-mincore.c \
+ 	stress-min-nanosleep.c \
+@@ -630,7 +625,6 @@
+ 	stress-mmapfixed.c \
+ 	stress-mmapfork.c \
+ 	stress-mmaphuge.c \
+-	stress-mmapmany.c \
+ 	stress-mmaprandom.c \
+ 	stress-mmaptorture.c \
+ 	stress-module.c \
+@@ -642,7 +636,6 @@
+ 	stress-mseal.c \
+ 	stress-msg.c \
+ 	stress-msync.c \
+-	stress-msyncmany.c \
+ 	stress-mtx.c \
+ 	stress-munmap.c \
+ 	stress-mutex.c \
+@@ -686,7 +679,6 @@
+ 	stress-quota.c \
+ 	stress-qsort.c \
+ 	stress-race-sched.c \
+-	stress-radixsort.c \
+ 	stress-randlist.c \
+ 	stress-ramfs.c \
+ 	stress-rawdev.c \
+@@ -726,7 +718,6 @@
+ 	stress-shm-sysv.c \
+ 	stress-sigabrt.c \
+ 	stress-sigbus.c \
+-	stress-sigchld.c \
+ 	stress-sigfd.c \
+ 	stress-sigfpe.c \
+ 	stress-sighup.c \
+@@ -760,7 +751,6 @@
+ 	stress-spinmem.c \
+ 	stress-splice.c \
+ 	stress-stack.c \
+-	stress-stackmmap.c \
+ 	stress-statmount.c \
+ 	stress-str.c \
+ 	stress-stream.c \
+@@ -791,7 +781,6 @@
+ 	stress-umask.c \
+ 	stress-umount.c \
+ 	stress-unlink.c \
+-	stress-unshare.c \
+ 	stress-uprobe.c \
+ 	stress-urandom.c \
+ 	stress-userfaultfd.c \
+@@ -821,10 +810,6 @@
+ 	stress-x86cpuid.c \
+ 	stress-x86syscall.c \
+ 	stress-xattr.c \
+-	stress-yield.c \
+-	stress-zero.c \
+-	stress-zlib.c \
+-	stress-zombie.c \
+ 
+ SRC = $(CORE_SRC) $(CORE_SRC_GEN) $(STRESS_SRC)
+ OBJS += stress-eigen-ops.o
