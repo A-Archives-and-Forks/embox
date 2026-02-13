@@ -24,17 +24,17 @@ module uid {
 	depends embox.kernel.task.resource.u_area
 }
 
-@TestFor(embox.compat.posix.ipc.pipe)
+@TestFor(embox.compat.posix.unistd.pipe)
 module pipe_test {
 	source "pipe_test.c"
 
-	depends embox.compat.posix.ipc.pipe
+	depends embox.compat.posix.unistd.pipe
 }
 
 module select_test {
 	source "select_test.c"
 
-	depends embox.compat.posix.ipc.pipe
+	depends embox.compat.posix.unistd.pipe
 	depends embox.compat.posix.index_descriptor
 }
 

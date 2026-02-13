@@ -30,5 +30,5 @@ static module core {
 	@NoRuntime depends embox.compat.posix.pthread_key
 	@NoRuntime depends embox.compat.posix.sys.mman.mmap_api
 	@NoRuntime depends embox.cxx.LibCxx
-	@NoRuntime depends embox.compat.posix.ipc.pipe
+	@NoRuntime depends embox.compat.posix.unistd.pipe
 }

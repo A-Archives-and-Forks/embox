@@ -22,7 +22,7 @@ module cnc_control {
 module cnc_init {
 	source "cnc_init.c"
 
-	@NoRuntime depends embox.compat.posix.ipc.pipe
+	@NoRuntime depends embox.compat.posix.unistd.pipe
 }
 
 @AutoCmd

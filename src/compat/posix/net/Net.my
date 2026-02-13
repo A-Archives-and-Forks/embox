@@ -165,5 +165,5 @@ static module socketpair_stub {
 
 	source "socketpair_stub.c"
 
-	@NoRuntime depends embox.compat.posix.ipc.pipe
+	@NoRuntime depends embox.compat.posix.unistd.pipe
 }
