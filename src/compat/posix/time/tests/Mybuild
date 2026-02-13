@@ -28,3 +28,6 @@ module timer_test {
 	source "timer_test.c"
 }
 
+module nanosleep_test {
+	source "nanosleep_test.c"
+}
