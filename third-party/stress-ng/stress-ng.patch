@@ -1,6 +1,6 @@
 diff -aur ./stress-ng-0.20.00/Makefile ../build/extbld/third_party/cmd/stress_ng/stress-ng-0.20.00/Makefile
 --- ./stress-ng-0.20.00/Makefile	2026-01-01 01:52:06.000000000 +0300
-+++ ../build/extbld/third_party/cmd/stress_ng/stress-ng-0.20.00/Makefile	2026-02-12 18:15:57.338392395 +0300
++++ ../build/extbld/third_party/cmd/stress_ng/stress-ng-0.20.00/Makefile	2026-02-13 15:15:56.867461994 +0300
 @@ -138,7 +138,7 @@
  MACHINE := $(shell make -f Makefile.machine)
  ifneq ($(PRESERVE_CFLAGS),1)
@@ -114,3 +114,109 @@ diff -aur ./stress-ng-0.20.00/Makefile ../build/extbld/third_party/cmd/stress_ng
  
  SRC = $(CORE_SRC) $(CORE_SRC_GEN) $(STRESS_SRC)
  OBJS += stress-eigen-ops.o
+diff -aur ./stress-ng-0.20.00/core-stressors.h ../build/extbld/third_party/cmd/stress_ng/stress-ng-0.20.00/core-stressors.h
+--- ./stress-ng-0.20.00/core-stressors.h	2026-01-01 01:52:06.000000000 +0300
++++ ../build/extbld/third_party/cmd/stress_ng/stress-ng-0.20.00/core-stressors.h	2026-02-13 15:29:52.667258113 +0300
+@@ -130,7 +130,6 @@
+ 	MACRO(handle)		\
+ 	MACRO(hash)		\
+ 	MACRO(hdd)		\
+-	MACRO(heapsort)		\
+ 	MACRO(hrtimers)		\
+ 	MACRO(hsearch)		\
+ 	MACRO(hyperbolic)	\
+@@ -159,7 +158,6 @@
+ 	MACRO(landlock)		\
+ 	MACRO(lease)		\
+ 	MACRO(led)		\
+-	MACRO(link)		\
+ 	MACRO(list)		\
+ 	MACRO(llc_affinity)	\
+ 	MACRO(loadavg)		\
+@@ -171,7 +169,6 @@
+ 	MACRO(logmath)		\
+ 	MACRO(longjmp)		\
+ 	MACRO(loop)		\
+-	MACRO(lsearch)		\
+ 	MACRO(lsm)		\
+ 	MACRO(madvise)		\
+ 	MACRO(malloc)		\
+@@ -180,11 +177,9 @@
+ 	MACRO(mcontend)		\
+ 	MACRO(membarrier)	\
+ 	MACRO(memcpy)		\
+-	MACRO(memfd)		\
+ 	MACRO(memhotplug)	\
+ 	MACRO(memrate)		\
+ 	MACRO(memthrash)	\
+-	MACRO(mergesort)	\
+ 	MACRO(metamix)		\
+ 	MACRO(mincore)		\
+ 	MACRO(min_nanosleep)	\
+@@ -199,7 +194,6 @@
+ 	MACRO(mmapfixed)	\
+ 	MACRO(mmapfork)		\
+ 	MACRO(mmaphuge)		\
+-	MACRO(mmapmany)		\
+ 	MACRO(mmaprandom)	\
+ 	MACRO(mmaptorture)	\
+ 	MACRO(module)		\
+@@ -211,7 +205,6 @@
+ 	MACRO(mseal)		\
+ 	MACRO(msg)		\
+ 	MACRO(msync)		\
+-	MACRO(msyncmany)	\
+ 	MACRO(mtx)		\
+ 	MACRO(munmap)		\
+ 	MACRO(mutex)		\
+@@ -255,7 +248,6 @@
+ 	MACRO(qsort)		\
+ 	MACRO(quota)		\
+ 	MACRO(race_sched)	\
+-	MACRO(radixsort)	\
+ 	MACRO(ramfs)		\
+ 	MACRO(randlist)		\
+ 	MACRO(rawdev)		\
+@@ -295,7 +287,6 @@
+ 	MACRO(shm_sysv)		\
+ 	MACRO(sigabrt)		\
+ 	MACRO(sigbus)		\
+-	MACRO(sigchld)		\
+ 	MACRO(sigfd)		\
+ 	MACRO(sigfpe)		\
+ 	MACRO(sighup)		\
+@@ -329,13 +320,11 @@
+ 	MACRO(spinmem)		\
+ 	MACRO(splice)		\
+ 	MACRO(stack)		\
+-	MACRO(stackmmap)	\
+ 	MACRO(statmount)	\
+ 	MACRO(str)		\
+ 	MACRO(stream)		\
+ 	MACRO(swap)		\
+ 	MACRO(switch)		\
+-	MACRO(symlink)		\
+ 	MACRO(sync_file)	\
+ 	MACRO(syncload)		\
+ 	MACRO(sysbadaddr)	\
+@@ -361,7 +350,6 @@
+ 	MACRO(umask)		\
+ 	MACRO(umount)		\
+ 	MACRO(unlink)		\
+-	MACRO(unshare)		\
+ 	MACRO(uprobe)		\
+ 	MACRO(urandom)		\
+ 	MACRO(userfaultfd)	\
+@@ -391,11 +379,7 @@
+ 	MACRO(workload)		\
+ 	MACRO(x86cpuid)		\
+ 	MACRO(x86syscall)	\
+-	MACRO(xattr)		\
+-	MACRO(yield)		\
+-	MACRO(zero)		\
+-	MACRO(zlib)		\
+-	MACRO(zombie)
++	MACRO(xattr)
+ 
+ /*
+  *  Declaration of stress_*_info object
