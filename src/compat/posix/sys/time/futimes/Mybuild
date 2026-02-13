@@ -1,11 +1,11 @@
 package embox.compat.posix.sys.time
 
-@DefaultImpl(fchmod_stub)
-abstract module fchmod {
+@DefaultImpl(futimes_stub)
+abstract module futimes {
 }
 
-module fchmod_stub extends fchmod {
+module futimes_stub extends futimes {
 	option string log_level = "LOG_DEBUG"
 
-	source "fchmod_stub.c"
+	source "futimes_stub.c"
 }

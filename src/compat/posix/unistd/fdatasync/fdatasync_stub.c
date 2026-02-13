@@ -13,7 +13,7 @@
 #include <unistd.h>
 
 int fdatasync(int fildes) {
-	log_debug("fildes - %d", fd);
+	log_debug("fildes - %d", fildes);
 	SET_ERRNO(-ENOSYS);
 	return -1;
 }
