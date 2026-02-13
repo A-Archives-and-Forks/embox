@@ -1,0 +1,12 @@
+package embox.compat.posix.ucontext
+
+@DefaultImpl(ucontext_stub)
+abstract module ucontext {
+
+}
+
+static module ucontext_stub extends ucontext {
+    option string log_level = "LOG_DEBUG"
+
+    source "ucontext_stub.c"
+}
