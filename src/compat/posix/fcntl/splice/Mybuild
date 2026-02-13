@@ -1,0 +1,11 @@
+package embox.compat.posix.fcntl
+
+@DefaultImpl(splice_stub)
+abstract module splice {
+}
+
+module splice_stub extends splice {
+	option string log_level = "LOG_DEBUG"
+
+	source "splice_stub.c"
+}
