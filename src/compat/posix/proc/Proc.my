@@ -12,9 +12,6 @@ module All {
 @DefaultImpl(exec_exchanged)
 abstract module exec_lib { }
 
-@DefaultImpl(fork_copy_everything)
-abstract module fork { }
-
 static module vfork_entry {
 	source "vfork.c"
 

@@ -17,5 +17,5 @@ module arducopter {
 	@NoRuntime depends embox.cxx.LibCxx
 	@NoRuntime depends embox.compat.posix.stubs
 	@NoRuntime depends embox.compat.posix.unistd.pipe
-	@NoRuntime depends embox.compat.posix.proc.fork
+	@NoRuntime depends embox.compat.posix.unistd.fork
 }
