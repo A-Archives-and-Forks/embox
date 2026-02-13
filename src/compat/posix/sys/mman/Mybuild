@@ -1,15 +1,7 @@
 package embox.compat.posix.sys.mman
 
-static module msync {
-	option string log_level="LOG_INFO"
-
-	source "msync.c"
-
-	@NoRuntime depends embox.lib.libds
-}
-
 static module libmman {
-	depends msync
+	depends embox.compat.posix.sys.mman.msync
 }
 
 @DefaultImpl(shm_mem_stub)
