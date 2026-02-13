@@ -1,4 +1,4 @@
-package embox.compat.posix.ipc
+package embox.compat.posix.sys.msg
 
 /* System V message queue */
 static module msg {

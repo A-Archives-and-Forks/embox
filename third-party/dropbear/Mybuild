@@ -45,7 +45,7 @@ module dropbear {
 	@NoRuntime depends embox.compat.libc.type
 	@NoRuntime depends embox.kernel.task.resource.errno
 	@NoRuntime depends embox.kernel.task.resource.dropbear_res
-	@NoRuntime depends embox.compat.posix.ipc.pipe
+	@NoRuntime depends embox.compat.posix.unistd.pipe
 	@NoRuntime depends embox.compat.posix.stubs
 	@NoRuntime depends embox.compat.posix.pty
 	@NoRuntime depends embox.compat.posix.proc.vfork

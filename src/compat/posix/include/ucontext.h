@@ -26,6 +26,10 @@ extern void makecontext(ucontext_t *ucp, void (*func)(),
 extern int swapcontext(ucontext_t *restrict oucp,
        const ucontext_t *restrict ucp);
 
+
+extern int getcontext(ucontext_t *ucp);
+extern int setcontext(const ucontext_t *ucp);
+
 __END_DECLS
 
 #endif /* SRC_COMPAT_POSIX_INCLUDE_UCONTEXT */

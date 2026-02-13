@@ -1,4 +1,4 @@
-package embox.compat.posix.ipc
+package embox.compat.posix.unistd.pipe.tests
 
 module pipe_close_notify_test {
 	source "pipe_close_notify_test.c"

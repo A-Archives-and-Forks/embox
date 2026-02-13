@@ -84,7 +84,7 @@ static inline int mlock(const void *addr, size_t len) {
 #define MADV_NORMAL  0x00
 #define MADV_RANDOM  0x01
 
-extern  int madvise(void *start, size_t length, int advice);
+extern int madvise(void *start, size_t length, int advice);
 
 __END_DECLS
 

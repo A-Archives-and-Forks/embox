@@ -1,4 +1,4 @@
-package embox.compat.posix.ipc
+package embox.compat.posix.unistd
 
 static module pipe {
 	source "pipe.c"

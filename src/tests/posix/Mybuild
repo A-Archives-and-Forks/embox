@@ -50,7 +50,7 @@ module poll_test {
 	source "poll_test.c"
 
 	depends embox.compat.posix.index_descriptor
-	depends embox.compat.posix.ipc.pipe
+	depends embox.compat.posix.unistd.pipe
 	depends embox.framework.LibFramework
 }
 
@@ -58,7 +58,7 @@ module select_test {
 	source "select_test.c"
 
 	depends embox.compat.posix.index_descriptor
-	depends embox.compat.posix.ipc.pipe
+	depends embox.compat.posix.unistd.pipe
 	depends embox.compat.posix.pthreads
 	depends embox.compat.posix.util.sleep
 	depends embox.framework.test
@@ -67,7 +67,7 @@ module select_test {
 module pipe_test {
 	source "pipe_test.c"
 
-	depends embox.compat.posix.ipc.pipe
+	depends embox.compat.posix.unistd.pipe
 	depends embox.compat.posix.util.sleep
 }
 
@@ -82,7 +82,7 @@ module fork_test {
 
 	depends embox.test.posix.fork.test_fork_static
 
-	depends embox.compat.posix.proc.fork
+	depends embox.compat.posix.unistd.fork
 }
 
 module vfork_test {

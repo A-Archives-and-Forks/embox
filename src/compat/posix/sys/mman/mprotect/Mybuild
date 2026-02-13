@@ -1,0 +1,7 @@
+package embox.compat.posix.sys.mman
+
+module mprotect {
+	source "mprotect.c"
+
+	depends embox.compat.posix.sys.mman.mmap
+}

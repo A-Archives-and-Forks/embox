@@ -1,4 +1,4 @@
-package embox.compat.posix.ipc
+package embox.compat.posix.sys.msg.test
 
 module msg_basic_tests {
 	source "msg_basic_tests.c"

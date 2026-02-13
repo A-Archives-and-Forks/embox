@@ -1,0 +1,17 @@
+package embox.compat.posix.sys.mman
+
+@DefaultImpl(shm_mem_stub)
+abstract module shm_mem {
+}
+
+module shm_mem_nommu extends shm_mem {
+	source "shm.c"
+
+	option number amount_shmem_objs=20
+
+	depends embox.compat.posix.sys.mman.mmap
+}
+
+module shm_mem_stub extends shm_mem {
+	source "shm_stub.c"
+}
