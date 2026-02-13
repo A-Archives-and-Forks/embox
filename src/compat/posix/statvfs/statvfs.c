@@ -13,7 +13,10 @@
 #include <sys/stat.h>
 #include <sys/statvfs.h>
 
-#include <fs/dvfs.h>
+#include <fs/super_block.h>
+#include <fs/inode.h>
+#include <fs/fs_driver.h>
+
 #include <fs/file_desc.h>
 #include <drivers/block_dev.h>
 #include <kernel/task/resource/idesc.h>
