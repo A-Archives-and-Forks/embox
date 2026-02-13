@@ -1,11 +1,11 @@
 package embox.compat.posix.fcntl
 
-@DefaultImpl(readlikat_stub)
-abstract module readlikat {
+@DefaultImpl(readlinkat_stub)
+abstract module readlinkat {
 }
 
-module readlikat_stub extends readlikat {
+module readlinkat_stub extends readlinkat {
 	option string log_level = "LOG_DEBUG"
 
-	source "readlikat_stub.c"
+	source "readlinkat_stub.c"
 }

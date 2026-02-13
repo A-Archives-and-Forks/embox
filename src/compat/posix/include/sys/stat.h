@@ -137,6 +137,8 @@ extern mode_t umask(mode_t mode);
 /* stubs */
 extern int fchmod(int fildes, mode_t mode);
 
+extern int fchmodat(int dirfd, const char *pathname, mode_t mode, int flags);
+
 extern int fstatat(int fd, const char */*restrict*/ path,
        					struct stat */* restrict */ buf, int flag);
 extern int utimensat(int dirfd, const char *pathname,

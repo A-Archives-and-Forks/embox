@@ -13,7 +13,7 @@
 #include <unistd.h>
 
 int fchown(int fildes, uid_t owner, gid_t group) {
-	log_debug("fildes - %d", fd);
+	log_debug("fildes - %d", fildes);
 	SET_ERRNO(-ENOSYS);
 	return -1;
 }

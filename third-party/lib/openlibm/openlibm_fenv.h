@@ -37,22 +37,28 @@ __BEGIN_DECLS
 extern const fenv_t __fe_dfl_env;
 
 static inline int feclearexcept(int excepts) {
+	(void) excepts;
 	return 0;
 }
 
 static inline int fegetexceptflag(fexcept_t *flagp, int excepts) {
+	(void) flagp;
+	(void) excepts;
 	return 0;
 }
 
 static inline int fesetexceptflag(const fexcept_t *flagp, int excepts) {
+	(void) excepts;
 	return 0;
 }
 
 static inline int feraiseexcept(int excepts) {
+	(void) excepts;
 	return 0;
 }
 
 static inline int fetestexcept(int excepts) {
+	(void) excepts;
 	return 0;
 }
 
@@ -61,22 +67,27 @@ static inline int fegetround(void) {
 }
 
 static inline int fesetround(int round) {
+	(void) round;
 	return 0;
 }
 
 static inline int fegetenv(fenv_t *envp) {
+	(void) envp;
 	return 0;
 }
 
 static inline int feholdexcept(fenv_t *envp) {
+	(void) envp;
 	return 0;
 }
 
 static inline int fesetenv(const fenv_t *envp) {
+	(void) envp;
 	return 0;
 }
 
 static inline int feupdateenv(const fenv_t *envp) {
+	(void) envp;
 	return 0;
 }
 
