@@ -11,6 +11,6 @@
 #include <errno.h>
 #include <setjmp.h>
 
-void siglongjmp(sigjmp_buf env, int val); {
+void siglongjmp(sigjmp_buf env, int val) {
 	log_debug("%s",__func__);
 }

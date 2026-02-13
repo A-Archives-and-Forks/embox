@@ -11,7 +11,7 @@
 #include <errno.h>
 #include <setjmp.h>
 
-int sigsetjmp(sigjmp_buf env, int val); {
+int sigsetjmp(sigjmp_buf env, int val) {
 	log_debug("%s",__func__);
 	return -1;
 }
