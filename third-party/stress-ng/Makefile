@@ -6,12 +6,17 @@ PKG_MD5     := 0d1b99921cd69b4fa49a514dc5c2222c
 PKG_PATCHES := stress-ng.patch 
 
 $(CONFIGURE) :
+	cd $(PKG_SOURCE_DIR) && ( \
+		export EMBOX_GCC_LINK=full; \
+		STATIC=1 CC=$(EMBOX_CC) \
+		$(MAKE) config.h MAKEFLAGS='$(EMBOX_IMPORTED_MAKEFLAGS)' \
+	)
 	touch $@
 
 $(BUILD) :
 	cd $(PKG_SOURCE_DIR) && ( \
 		STATIC=1 CC=$(EMBOX_CC) \
-		$(MAKE) MAKEFLAGS='$(EMBOX_IMPORTED_MAKEFLAGS)' \
+		$(MAKE) stress-ng MAKEFLAGS='$(EMBOX_IMPORTED_MAKEFLAGS)' \
 	)
 	touch $@
 
