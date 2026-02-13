@@ -12,12 +12,6 @@ static module libmman {
 	depends msync
 }
 
-module mprotect {
-	source "mprotect.c"
-
-	depends embox.compat.posix.sys.mman.mmap
-}
-
 @DefaultImpl(shm_mem_stub)
 abstract module shm_mem {
 }
