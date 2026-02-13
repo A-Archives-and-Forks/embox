@@ -12,25 +12,69 @@
 #ifndef POSIX_SCHED_H_
 #define POSIX_SCHED_H_
 
+#include <limits.h>
+#include <sys/cdefs.h>
 #include <sys/types.h>
 #include <time.h>
 
-#include <sys/cdefs.h>
-
-__BEGIN_DECLS
-
-/*
+/**
  * Scheduling policies
+ * TODO SCHED_FIFO and SCHED_RR may have priority more or equal 200
  */
-#define SCHED_OTHER     0 /* Another scheduling policy.*/
-/* TODO SCHED_FIFO and SCHED_RR may have priority more or equal 200 */
-#define SCHED_FIFO      1 /* First in-first out (FIFO) scheduling policy*/
-#define SCHED_RR        2 /* Round robin scheduling policy. */
+#define SCHED_OTHER 0 /* Another scheduling policy.*/
+#define SCHED_FIFO  1 /* First in-first out (FIFO) scheduling policy*/
+#define SCHED_RR    2 /* Round robin scheduling policy. */
 
+#define CPU_ZERO(s) \
+	do {            \
+		*(s) = 0;   \
+	} while (0)
+
+#define CPU_SET(c, s)        \
+	do {                     \
+		*(s) |= (1u << (c)); \
+	} while (0)
+
+#define CPU_CLR(c, s)         \
+	do {                      \
+		*(s) &= ~(1u << (c)); \
+	} while (0)
+
+#define CPU_AND(d, s1, s2)    \
+	do {                      \
+		*(d) = *(s1) & *(s2); \
+	} while (0)
+
+#define CPU_OR(d, s1, s2)     \
+	do {                      \
+		*(d) = *(s1) | *(s2); \
+	} while (0)
+
+#define CPU_XOR(d, s1, s2)    \
+	do {                      \
+		*(d) = *(s1) ^ *(s2); \
+	} while (0)
+
+#define CPU_SETSIZE             WORD_BIT
+#define CPU_ISSET(c, s)         ((*(s) & (1u << (c))) != 0)
+#define CPU_COUNT(s)            __builtin_popcount(*s)
+#define CPU_EQUAL(s1, s2)       (*(s1) == *(s2))
+#define CPU_ALLOC(n)            (cpu_set_t *)malloc(sizeof(cpu_set_t))
+#define CPU_FREE(s)             free(s)
+#define CPU_ALLOC_SIZE(n)       sizeof(cpu_set_t)
+#define CPU_ZERO_S(n, s)        CPU_ZERO(s)
+#define CPU_SET_S(c, n, s)      CPU_SET(c, s)
+#define CPU_CLR_S(c, n, s)      CPU_CLR(c, s)
+#define CPU_ISSET_S(c, n, s)    CPU_ISSET(c, s)
+#define CPU_COUNT_S(n, s)       CPU_COUNT(s)
+#define CPU_AND_S(n, d, s1, s2) CPU_AND(d, s1, s2)
+#define CPU_OR_S(n, d, s1, s2)  CPU_OR(d, s1, s2)
+#define CPU_XOR_S(n, d, s1, s2) CPU_XOR(d, s1, s2)
+#define CPU_EQUAL_S(n, s1, s2)  CPU_EQUAL(s1, s2)
 
 struct sched_param {
 	int sched_priority; /**< Process or thread execution scheduling priority. */
-	/*
+	                    /*
 	In addition, if _POSIX_SPORADIC_SERVER or _POSIX_THREAD_SPORADIC_SERVER is
 	defined, the sched_param structure defined in <sched.h> shall contain the
 	following members in addition to those specified above:
@@ -44,6 +88,8 @@ struct sched_param {
 	                                      sporadic server.
 	*/
 };
+
+__BEGIN_DECLS
 
 /**
  * sched_get_priority_max, get max priority  limit
@@ -85,26 +131,12 @@ extern int sched_setscheduler(pid_t, int, const struct sched_param *);
  */
 extern int sched_yield(void);
 
-#define CPU_SETSIZE 32
-
-/* _GNU_SOURCE */
-#include <kernel/sched/affinity.h>
-
-typedef struct affinity cpu_set_t;
-
-extern void CPU_ZERO(cpu_set_t *set);
-
-extern void CPU_SET(int cpu, cpu_set_t *set);
-extern void CPU_CLR(int cpu, cpu_set_t *set);
-extern int  CPU_ISSET(int cpu, cpu_set_t *set);
-extern int  CPU_COUNT(cpu_set_t *set);
+typedef unsigned int cpu_set_t;
 
 extern int sched_getcpu(void);
 
-extern int sched_setaffinity(pid_t pid, size_t cpusetsize,
-	const cpu_set_t *mask);
-extern int sched_getaffinity(pid_t pid, size_t cpusetsize,
-	cpu_set_t *mask);
+extern int sched_setaffinity(pid_t pid, size_t cpusetsize, const cpu_set_t *mask);
+extern int sched_getaffinity(pid_t pid, size_t cpusetsize, cpu_set_t *mask);
 
 /* stubs */
 extern int unshare(int flags);

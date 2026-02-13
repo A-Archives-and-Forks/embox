@@ -11,27 +11,6 @@
 
 #include <hal/cpu.h>
 
-void CPU_ZERO(cpu_set_t *set) {
-	sched_affinity_init(set);
-}
-
-void CPU_SET(int cpu, cpu_set_t *set) {
-	sched_affinity_set(set, 1 << cpu);
-}
-
-void CPU_CLR(int cpu, cpu_set_t *set) {
-
-}
-
-int  CPU_ISSET(int cpu, cpu_set_t *set) {
-	return sched_affinity_check(set, 1 << cpu);
-}
-
-int CPU_COUNT(cpu_set_t *set) {
-	return 1; // FIXME CPU_GET_COUNTER
-
-}
-
 int sched_getcpu(void) {
 	uint32_t cpuid = cpu_get_id();
 	return cpuid;
