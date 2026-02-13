@@ -1,0 +1,11 @@
+package embox.compat.posix.sys.time
+
+@DefaultImpl(utimes_stub)
+abstract module utimes {
+}
+
+module utimes_stub extends utimes {
+	option string log_level = "LOG_DEBUG"
+
+	source "utimes_stub.c"
+}
