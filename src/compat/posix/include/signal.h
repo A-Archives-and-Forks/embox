@@ -216,6 +216,15 @@ struct sigevent {
 	pid_t sigev_notify_thread_id;
 };
 
+/* stubs */
+
+
+extern int sigtimedwait(const sigset_t */*restrict */ set,
+       siginfo_t */*restrict */info,
+       const struct timespec */*restrict */timeout);
+extern int sigwaitinfo(const sigset_t */*restrict*/ set,
+       siginfo_t */*restrict*/ info);
+
 __END_DECLS
 
 #endif /* COMPAT_POSIX_SIGNAL_H_ */
