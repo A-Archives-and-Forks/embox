@@ -1,0 +1,11 @@
+package embox.compat.posix.signal
+
+@DefaultImpl(sigsuspend_stub)
+abstract module sigsuspend {
+}
+
+module sigsuspend_stub extends sigsuspend {
+	option string log_level = "LOG_DEBUG"
+
+	source "sigsuspend_stub.c"
+}

@@ -1,0 +1,11 @@
+package embox.compat.posix.signal
+
+@DefaultImpl(sigaltstack_stub)
+abstract module sigaltstack {
+}
+
+module sigaltstack_stub extends sigaltstack {
+	option string log_level = "LOG_DEBUG"
+
+	source "sigaltstack_stub.c"
+}

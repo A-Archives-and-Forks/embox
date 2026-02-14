@@ -196,8 +196,7 @@ extern const char *const sys_siglist[];
 #define SS_ONSTACK 1 /* Process is executing on an alternate signal stack */
 #define SS_DISABLE 2 /* Alternate signal stack is disabled */
 
-#define MINSIGSTKSZ 2048
-extern int sigaltstack(const stack_t *ss, stack_t *oss);
+#define MINSIGSTKSZ 2048 /* FIXME MUST BE AN OPTION */
 
 #define SIGEV_NONE   0
 #define SIGEV_SIGNAL 1
@@ -218,12 +217,14 @@ struct sigevent {
 
 /* stubs */
 
-
 extern int sigtimedwait(const sigset_t */*restrict */ set,
        siginfo_t */*restrict */info,
        const struct timespec */*restrict */timeout);
 extern int sigwaitinfo(const sigset_t */*restrict*/ set,
        siginfo_t */*restrict*/ info);
+
+extern int sigsuspend(const sigset_t *sigmask);
+extern int sigaltstack(const stack_t *ss, stack_t *oss);
 
 __END_DECLS
 

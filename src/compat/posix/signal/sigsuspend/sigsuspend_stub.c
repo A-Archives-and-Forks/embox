@@ -11,12 +11,8 @@
 #include <errno.h>
 #include <signal.h>
 
-int sigtimedwait(const sigset_t */*restrict */ set,
-       siginfo_t */*restrict */info,
-       const struct timespec */*restrict */timeout) {
-	(void) set;
-	(void) info;
-	(void) timeout;
+int sigsuspend(const sigset_t *sigmask) {
+	(void) sigmask;
 
 	log_debug("stub %s()", __func__);
 	return SET_ERRNO(-ENOSYS);

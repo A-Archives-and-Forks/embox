@@ -31,7 +31,3 @@ static module sigwait_stub extends sigwait {
 static module sigwait_timer extends sigwait {
 	source "sigwait_timer.c"
 }
-
-static module sigsuspend_stub {
-	source "sigsuspend_stub.c"
-}
