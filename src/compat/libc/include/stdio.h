@@ -207,6 +207,8 @@ extern void rewind(FILE *stream);
  * Change the name or location of a file.
  */
 extern int rename(const char *oldpath, const char *newpath);
+extern int renameat(int oldfd, const char *oldpath, int newfd,
+       const char *newpath);
 
 /**
  * Manipulate the underlying device parameters of special files.
