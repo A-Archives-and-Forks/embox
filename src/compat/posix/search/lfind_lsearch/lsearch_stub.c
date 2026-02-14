@@ -2,7 +2,7 @@
  * @file
  * @brief
  *
- * @date 12.021.2026
+ * @date 12.02.2026
  * @author Anton Bondarev
  */
 
