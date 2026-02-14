@@ -13,7 +13,11 @@
 #include <unistd.h>
 
 int fchownat(int fd, const char *path, uid_t owner, gid_t group, int flag) {
-	log_debug("fildes - %d", fd);
-	SET_ERRNO(-ENOSYS);
-	return -1;
+	(void) fd;
+	(void) path;
+	(void) owner;
+	(void) group;
+	(void) flag;
+	log_debug("stub fchownat(%d, %s,)", fd, path);
+	return SET_ERRNO(-ENOSYS);
 }

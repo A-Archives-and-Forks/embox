@@ -1,0 +1,9 @@
+package embox.compat.posix.unistd
+
+@DefaultImpl(getresgid_stub)
+abstract module getresgid {
+}
+
+static module getresgid_stub extends getresgid {
+	source "getresgid_stub.c"
+}
