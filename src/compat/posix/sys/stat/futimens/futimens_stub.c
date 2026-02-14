@@ -12,8 +12,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-int utimensat(int dirfd, const char *pathname,
-              const struct timespec times[2], int flags) {
-	log_debug("stub utimensat(%d, %s, )", dirfd, pathname);
+int futimens(int fd, const struct timespec times[2]) {
+	log_debug("stub futimens(%d,)", fd);
 	return SET_ERRNO(-ENOSYS);
 }

@@ -141,6 +141,8 @@ extern int fchmodat(int dirfd, const char *pathname, mode_t mode, int flags);
 
 extern int fstatat(int fd, const char */*restrict*/ path,
        					struct stat */* restrict */ buf, int flag);
+
+extern int futimens(int fd, const struct timespec times[2]);
 extern int utimensat(int dirfd, const char *pathname,
               const struct timespec times[2], int flags);
 
