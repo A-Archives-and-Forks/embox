@@ -11,6 +11,7 @@ $(CONFIGURE) :
 		STATIC=1 CC=$(EMBOX_CC) \
 		$(MAKE) config.h MAKEFLAGS='$(EMBOX_IMPORTED_MAKEFLAGS)' \
 	)
+# 	$(CP) $(CURDIR)/config.h $(PKG_SOURCE_DIR)
 	touch $@
 
 $(BUILD) :
