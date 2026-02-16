@@ -1,0 +1,5 @@
+package embox.compat.libc.str
+
+static module strsignal_stub {
+	source "strsignal_stub.c"
+}

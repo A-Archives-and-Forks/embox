@@ -12,5 +12,6 @@
 #include <string.h>
 
 char *strsignal(int signum) {
+    log_debug("stub %s(%d)", __func__, signum);
     return NULL;
 }
