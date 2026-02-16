@@ -22,6 +22,8 @@
 
 #include <lib/libds/bitmap.h>
 
+#define NSIG _SIG_TOTAL
+
 #define SIG_DFL ((sighandler_t)0x1)
 #define SIG_IGN ((sighandler_t)0x3)
 #define SIG_ERR ((sighandler_t)0x5)
@@ -113,7 +115,6 @@ enum {
 #define CLD_STOPPED         0x03
 #define CLD_CONTINUED       0x04
 
-__BEGIN_DECLS
 
 #ifdef __clang__
 typedef int sig_atomic_t;
@@ -121,7 +122,10 @@ typedef int sig_atomic_t;
 typedef __SIG_ATOMIC_TYPE__ sig_atomic_t;
 #endif
 
-#define NSIG _SIG_TOTAL
+
+#define SIG_BLOCK   0
+#define SIG_SETMASK 1
+#define SIG_UNBLOCK 1
 
 union sigval {
 	int sival_int;   /* Integer signal value. */
@@ -151,47 +155,6 @@ struct sigaction {
 	} /* unnamed */;
 };
 
-/* Non-standard GNU extension. */
-typedef void (*sighandler_t)(int);
-
-extern int sigemptyset(sigset_t *);
-extern int sigfillset(sigset_t *);
-extern int sigismember(const sigset_t *, int signo);
-extern int sigaddset(sigset_t *, int signo);
-extern int sigdelset(sigset_t *, int signo);
-
-#define SIG_BLOCK   0
-#define SIG_SETMASK 1
-#define SIG_UNBLOCK 1
-
-static inline int sigprocmask(int how, const sigset_t *set, sigset_t *oldset) {
-	(void)how;
-	(void)set;
-	(void)oldset;
-	return -ENOSYS;
-}
-
-static inline int pthread_sigmask(int how, const sigset_t *set, sigset_t *oldset) {
-	(void)how;
-	(void)set;
-	(void)oldset;
-	return -ENOSYS;
-}
-
-extern sighandler_t signal(int signo, sighandler_t fn);
-extern int sigaction(int signo, const struct sigaction * /*restrict*/ act,
-    struct sigaction * /*restrict*/ oact);
-
-extern int kill(int tid, int signo);
-extern int sigqueue(int tid, int signo, const union sigval value);
-extern int raise(int signo);
-
-extern int sigwait(const sigset_t * /*restrict*/ set, int * /*restrict*/ sig);
-
-extern int pthread_kill(pthread_t thread, int sig);
-
-extern const char *const sys_siglist[];
-
 /* Values of the 'ss->ss_flags' arg of sigaltstack() */
 #define SS_ONSTACK 1 /* Process is executing on an alternate signal stack */
 #define SS_DISABLE 2 /* Alternate signal stack is disabled */
@@ -215,6 +178,31 @@ struct sigevent {
 	pid_t sigev_notify_thread_id;
 };
 
+/* Non-standard GNU extension. */
+typedef void (*sighandler_t)(int);
+
+__BEGIN_DECLS
+
+extern int sigemptyset(sigset_t *);
+extern int sigfillset(sigset_t *);
+extern int sigismember(const sigset_t *, int signo);
+extern int sigaddset(sigset_t *, int signo);
+extern int sigdelset(sigset_t *, int signo);
+
+extern sighandler_t signal(int signo, sighandler_t fn);
+extern int sigaction(int signo, const struct sigaction * /*restrict*/ act,
+    struct sigaction * /*restrict*/ oact);
+
+extern int kill(int tid, int signo);
+extern int sigqueue(int tid, int signo, const union sigval value);
+extern int raise(int signo);
+
+extern int sigwait(const sigset_t * /*restrict*/ set, int * /*restrict*/ sig);
+
+extern int pthread_kill(pthread_t thread, int sig);
+
+extern const char *const sys_siglist[];
+
 /* stubs */
 
 extern int sigtimedwait(const sigset_t */*restrict */ set,
@@ -225,6 +213,22 @@ extern int sigwaitinfo(const sigset_t */*restrict*/ set,
 
 extern int sigsuspend(const sigset_t *sigmask);
 extern int sigaltstack(const stack_t *ss, stack_t *oss);
+
+extern int sigpending(sigset_t *);
+
+static inline int sigprocmask(int how, const sigset_t *set, sigset_t *oldset) {
+	(void)how;
+	(void)set;
+	(void)oldset;
+	return -ENOSYS;
+}
+
+static inline int pthread_sigmask(int how, const sigset_t *set, sigset_t *oldset) {
+	(void)how;
+	(void)set;
+	(void)oldset;
+	return -ENOSYS;
+}
 
 __END_DECLS
 
