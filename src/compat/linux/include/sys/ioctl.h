@@ -12,6 +12,7 @@
 #define COMPAT_LINUX_SYS_IOCTL_H_
 
 #include <sys/cdefs.h>
+#include <termios.h>
 
 /* 16-bit IOCTL numbers */
 #define _IOC_DIRBITS  0
@@ -27,14 +28,14 @@
 #endif
 
 /* Direction bits. */
-#define _IOC_NONE      0U
-#define _IOC_WRITE     1U
-#define _IOC_READ      2U
+#define _IOC_NONE  0U
+#define _IOC_WRITE 1U
+#define _IOC_READ  2U
 
-#define _IOC_DIRMASK   ((1U << _IOC_DIRBITS) - 1)
-#define _IOC_SIZEMASK  ((1U << _IOC_SIZEBITS) - 1)
-#define _IOC_TYPEMASK  ((1U << _IOC_TYPEBITS) - 1)
-#define _IOC_NRMASK    ((1U << _IOC_NRBITS) - 1)
+#define _IOC_DIRMASK  ((1U << _IOC_DIRBITS) - 1)
+#define _IOC_SIZEMASK ((1U << _IOC_SIZEBITS) - 1)
+#define _IOC_TYPEMASK ((1U << _IOC_TYPEBITS) - 1)
+#define _IOC_NRMASK   ((1U << _IOC_NRBITS) - 1)
 
 #define _IOC_DIRSHIFT  0U
 #define _IOC_SIZESHIFT (_IOC_DIRSHIFT + _IOC_DIRBITS)
@@ -54,10 +55,10 @@
 #define _IOWR(type, nr, arg) _IOC(_IOC_READ | _IOC_WRITE, type, nr, sizeof(arg))
 
 /* Decoding */
-#define _IOC_DIR(ioc_nr)     (((ioc_nr) >> _IOC_DIRSHIFT) & _IOC_DIRMASK)
-#define _IOC_TYPE(ioc_nr)    (((ioc_nr) >> _IOC_TYPESHIFT) & _IOC_TYPEMASK)
-#define _IOC_NR(ioc_nr)      (((ioc_nr) >> _IOC_NRSHIFT) & _IOC_NRMASK)
-#define _IOC_SIZE(ioc_nr)    (((ioc_nr) >> _IOC_SIZESHIFT) & _IOC_SIZEMASK)
+#define _IOC_DIR(ioc_nr)  (((ioc_nr) >> _IOC_DIRSHIFT) & _IOC_DIRMASK)
+#define _IOC_TYPE(ioc_nr) (((ioc_nr) >> _IOC_TYPESHIFT) & _IOC_TYPEMASK)
+#define _IOC_NR(ioc_nr)   (((ioc_nr) >> _IOC_NRSHIFT) & _IOC_NRMASK)
+#define _IOC_SIZE(ioc_nr) (((ioc_nr) >> _IOC_SIZESHIFT) & _IOC_SIZEMASK)
 
 /* clang-format off */
 
