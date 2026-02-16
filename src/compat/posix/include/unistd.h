@@ -311,9 +311,17 @@ static inline void sync(void) {
 extern int fchown(int fildes, uid_t owner, gid_t group);
 extern int fdatasync(int fildes);
 extern int symlink(const char *path1, const char *path2);
+extern int symlinkat(const char *path1, int fd, const char *path2);
 extern int link(const char *path1, const char *path2);
+extern int linkat(int olddirfd, const char *oldpath,
+           int newdirfd, const char *newpath, int flags);
 extern int fchownat(int fd, const char *path, uid_t owner, gid_t group,
            int flag);
+
+extern int getresuid(uid_t *ruid, uid_t *euid, uid_t *suid);
+extern int setresuid(uid_t ruid, uid_t euid, uid_t suid);
+extern int getresgid(gid_t *rgid, gid_t *egid, gid_t *sgid);
+extern int setresgid(gid_t rgid, gid_t egid, gid_t sgid);
 
 __END_DECLS
 

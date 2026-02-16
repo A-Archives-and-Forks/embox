@@ -12,8 +12,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-int fchmod(int fildes, mode_t mode) {
-	log_debug("fd - %d, mode - %d\n", fildes, mode);
-	SET_ERRNO(-ENOSYS);
-	return -1;
+int futimens(int fd, const struct timespec times[2]) {
+	log_debug("stub futimens(%d,)", fd);
+	return SET_ERRNO(-ENOSYS);
 }

@@ -1,0 +1,11 @@
+package embox.compat.libc.stdio
+
+@DefaultImpl(renameat_stub)
+abstract module renameat {
+}
+
+module renameat_stub extends renameat {
+	option string log_level = "LOG_DEBUG"
+
+	source "renameat_stub.c"
+}

@@ -73,6 +73,8 @@ extern int timerisset(struct timeval *tvp);
 
 /* stubs */
 extern int futimes(int fd, const struct timeval tv[2]);
+extern int futimesat(int dirfd, const char *path,
+					const struct timeval times[2]);
 extern int lutimes(const char *path, const struct timeval tv[2]);
 extern int utimes(const char *path, const struct timeval times[2]);
 

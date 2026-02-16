@@ -9,10 +9,12 @@
 #include <util/log.h>
 
 #include <errno.h>
-#include <sys/types.h>
-#include <sys/time.h>
+#include <signal.h>
 
-int utimes(const char *path, const struct timeval times[2]) {
-	log_debug("path - %s", path);
+int sigaltstack(const stack_t *ss, stack_t *oss) {
+	(void) ss;
+	(void) oss;
+
+	log_debug("stub %s()", __func__);
 	return SET_ERRNO(-ENOSYS);
 }

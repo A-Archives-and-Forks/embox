@@ -1,0 +1,9 @@
+package embox.compat.posix.unistd
+
+@DefaultImpl(getresuid_stub)
+abstract module getresuid {
+}
+
+static module getresuid_stub extends getresuid {
+	source "getresuid_stub.c"
+}

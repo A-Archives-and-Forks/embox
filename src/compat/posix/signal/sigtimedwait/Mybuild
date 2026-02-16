@@ -1,0 +1,11 @@
+package embox.compat.posix.signal
+
+@DefaultImpl(sigtimedwait_stub)
+abstract module sigtimedwait {
+}
+
+module sigtimedwait_stub extends sigtimedwait {
+	option string log_level = "LOG_DEBUG"
+
+	source "sigtimedwait_stub.c"
+}

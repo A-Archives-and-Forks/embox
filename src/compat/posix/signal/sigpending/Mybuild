@@ -1,0 +1,11 @@
+package embox.compat.posix.signal
+
+@DefaultImpl(sigpending_stub)
+abstract module sigpending {
+}
+
+module sigpending_stub extends sigpending {
+	option string log_level = "LOG_DEBUG"
+
+	source "sigpending_stub.c"
+}

@@ -1,0 +1,11 @@
+package embox.compat.posix.search
+
+@DefaultImpl(tsearch_stub)
+abstract module tsearch {
+}
+
+module tsearch_stub extends tsearch {
+	option string log_level = "LOG_DEBUG"
+
+	source "tsearch_stub.c"
+}

@@ -1,0 +1,15 @@
+
+package embox.compat.posix.signal
+
+@DefaultImpl(sigwait_stub)
+abstract module sigwait {
+
+}
+
+static module sigwait_stub extends sigwait {
+	source "sigwait_stub.c"
+}
+
+static module sigwait_timer extends sigwait {
+	source "sigwait_timer.c"
+}

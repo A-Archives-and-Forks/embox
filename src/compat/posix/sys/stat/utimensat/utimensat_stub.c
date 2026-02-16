@@ -2,7 +2,7 @@
  * @file
  * @brief
  *
- * @date 12.021.2026
+ * @date 12.02.2026
  * @author Anton Bondarev
  */
 
@@ -14,7 +14,6 @@
 
 int utimensat(int dirfd, const char *pathname,
               const struct timespec times[2], int flags) {
-	log_debug("dirfd - %d", dirfd);
-	SET_ERRNO(-ENOSYS);
-	return -1;
+	log_debug("stub utimensat(%d, %s, )", dirfd, pathname);
+	return SET_ERRNO(-ENOSYS);
 }
