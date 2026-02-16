@@ -323,6 +323,11 @@ extern int setresuid(uid_t ruid, uid_t euid, uid_t suid);
 extern int getresgid(gid_t *rgid, gid_t *egid, gid_t *sgid);
 extern int setresgid(gid_t rgid, gid_t egid, gid_t sgid);
 
+extern int fchdir(int fildes);
+extern pid_t getsid(pid_t pid);
+extern int sethostname(const char *name, size_t len);
+extern char *ttyname(int fildes);
+
 __END_DECLS
 
 #endif /* COMPAT_POSIX_UNISTD_H_ */

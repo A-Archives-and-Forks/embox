@@ -1,0 +1,11 @@
+package embox.compat.posix.unistd
+
+@DefaultImpl(sethostname_stub)
+abstract module sethostname {
+}
+
+module sethostname_stub extends sethostname {
+	option string log_level = "LOG_DEBUG"
+
+	source "sethostname_stub.c"
+}

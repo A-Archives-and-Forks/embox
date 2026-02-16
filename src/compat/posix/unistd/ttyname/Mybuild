@@ -1,0 +1,11 @@
+package embox.compat.posix.unistd
+
+@DefaultImpl(ttyname_stub)
+abstract module ttyname {
+}
+
+module ttyname_stub extends ttyname {
+	option string log_level = "LOG_DEBUG"
+
+	source "ttyname_stub.c"
+}

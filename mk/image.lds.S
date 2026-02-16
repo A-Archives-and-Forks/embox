@@ -34,6 +34,7 @@ SECTIONS {
 		LDS_MODULES_TEXT
 		*(.text)
 		*(.text.*)
+		etext   = .;
 
 	} SECTION_REGION(text) :text
 

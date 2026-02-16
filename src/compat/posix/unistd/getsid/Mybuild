@@ -1,0 +1,11 @@
+package embox.compat.posix.unistd
+
+@DefaultImpl(getsid_stub)
+abstract module getsid {
+}
+
+module getsid_stub extends getsid {
+	option string log_level = "LOG_DEBUG"
+
+	source "getsid_stub.c"
+}
