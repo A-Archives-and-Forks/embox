@@ -1,6 +1,7 @@
 package third_party.cmd
 
 @App
+@AutoCmd
 @Cmd(name="stress-ng", help="")
 @Build(stage=2,script="$(EXTERNAL_MAKE)")
 module stress_ng {
@@ -8,15 +9,6 @@ module stress_ng {
 	source "stress-ng.o"
 
 	@NoRuntime depends embox.compat.libc.all
-	@NoRuntime depends embox.compat.posix.ipc.pipe
+	@NoRuntime depends embox.compat.posix.LibPosix
 	@NoRuntime depends embox.compat.posix.stubs
-	@NoRuntime depends embox.compat.posix.pty
-	@NoRuntime depends embox.compat.posix.proc.vfork
-	@NoRuntime depends embox.compat.posix.crypt
-	@NoRuntime depends embox.compat.posix.sys.resource
-	@NoRuntime depends embox.compat.posix.time.nanosleep
-	@NoRuntime depends embox.compat.posix.file_system
-	@NoRuntime depends embox.compat.posix.util.environ
-	@NoRuntime depends embox.compat.posix.sys.times
-	@NoRuntime depends embox.compat.posix.time.time
 }
