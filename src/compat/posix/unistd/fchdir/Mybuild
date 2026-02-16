@@ -1,0 +1,11 @@
+package embox.compat.posix.unistd
+
+@DefaultImpl(fchdir_stub)
+abstract module fchdir {
+}
+
+module fchdir_stub extends fchdir {
+	option string log_level = "LOG_DEBUG"
+
+	source "fchdir_stub.c"
+}
