@@ -18,6 +18,6 @@ module mount {
 	source "mount.c"
 
 	depends embox.compat.libc.stdio.printf
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	depends embox.fs.fs_api
 }

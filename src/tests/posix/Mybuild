@@ -29,14 +29,14 @@ module environ_test {
 module getopt_test {
 	source "getopt_test.c"
 
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	depends embox.framework.LibFramework
 }
 
 module getopt_long_test {
 	source "getopt_long_test.c"
 
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	depends embox.framework.LibFramework
 }
 

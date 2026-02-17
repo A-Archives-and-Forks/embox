@@ -1,15 +1,5 @@
 package embox.compat.posix.util
 
-static module getopt {
-	@IncludeExport(path="util")
-	source "getopt.h"
-	source "getopt.c"
-	source "getopt_init.c"
-	source "getopt_long.c"
-
-	@NoRuntime depends embox.compat.libc.str
-}
-
 static module time {
  	depends embox.compat.posix.time.clock
 	source "linux_timer.c"

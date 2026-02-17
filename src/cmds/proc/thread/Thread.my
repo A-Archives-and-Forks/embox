@@ -26,6 +26,6 @@ module thread {
 
 	depends embox.kernel.thread.core
 	depends embox.kernel.sched.sched
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	depends embox.compat.libc.stdio.scanf
 }

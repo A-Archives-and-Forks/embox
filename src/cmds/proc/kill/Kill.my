@@ -22,6 +22,6 @@ module kill {
 	source "kill.c"
 
 	depends embox.compat.posix.signal.signal
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	depends embox.compat.libc.all
 }

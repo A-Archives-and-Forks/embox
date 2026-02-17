@@ -14,7 +14,7 @@ module lorawan {
 	source "lorawan.c"
 	
 	depends embox.compat.libc.stdio.printf
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	depends embox.driver.gpio.core
 	depends embox.lib.LibCrypt
 	depends embox.compat.libc.all

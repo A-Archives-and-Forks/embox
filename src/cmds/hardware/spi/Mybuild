@@ -41,7 +41,7 @@ module spi {
 	@NoRuntime depends embox.lib.libds
 	depends embox.compat.libc.stdio.printf
 	depends embox.compat.libc.str
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 }
 
 @AutoCmd
@@ -80,7 +80,7 @@ module spi_dma {
 	depends embox.driver.spi.core
 	depends embox.compat.libc.stdio.printf
 	depends embox.compat.libc.str
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	depends embox.driver.dma.dma_api
 	depends embox.driver.spi.spi_dma
 }

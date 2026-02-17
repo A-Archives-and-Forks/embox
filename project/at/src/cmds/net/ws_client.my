@@ -30,5 +30,5 @@ module ws_client {
 	source "ws_client.c"
 	
 	depends embox.net.lib.websocket
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 }

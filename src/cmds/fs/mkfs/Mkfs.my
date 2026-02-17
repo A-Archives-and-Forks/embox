@@ -21,7 +21,7 @@ module mkfs {
 	source "mkfs.c"
 
 	//depends embox.compat.libc.all
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	//depends embox.driver.ramdisk
 	depends embox.framework.LibFramework
 	//depends embox.fs.filesystem

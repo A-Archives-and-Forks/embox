@@ -19,7 +19,7 @@ module date {
 	depends embox.compat.posix.time.time
 	depends embox.compat.libc.stdio.scanf
 
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 
 	depends embox.compat.posix.util.gettimeofday
 	depends embox.kernel.time.kernel_time
