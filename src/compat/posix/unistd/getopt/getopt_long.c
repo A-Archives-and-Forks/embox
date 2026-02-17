@@ -57,7 +57,11 @@ int getopt_long(int argc, char *const argv[], const char *optstring,
 		const struct option *lopt;
 
 		if (strncmp(argv[optind], "--", 2)) {
-			return getopt(argc, argv, optstring );
+			if (argv[optind][0] == '-') {
+				return getopt(argc, argv, optstring );
+			} else {
+				return -1;
+			}
 		}
 
 		consumed = getopt_try_long(argc - optind, argv + optind, longopts,
