@@ -201,14 +201,20 @@ int stdio_scan(const char **in, const char *fmt, va_list args) {
 				}
 
 				switch (ops_len) {
-				default: /* FIXME */
-					*va_arg(args, unsigned int*) = dst;
-					break;
 				case OPS_LEN_MIN:
 					*va_arg(args, unsigned char*) = dst;
 					break;
 				case OPS_LEN_SHORT:
 					*va_arg(args, unsigned short*) = dst;
+					break;
+				case OPS_LEN_LONG:
+					*va_arg(args, unsigned long*) = dst;
+					break;
+				case OPS_LEN_LONGLONG:
+					*va_arg(args, unsigned long long*) = dst;
+					break;
+				default: /* FIXME */
+					*va_arg(args, unsigned int*) = dst;
 					break;
 				}
 
@@ -225,14 +231,20 @@ int stdio_scan(const char **in, const char *fmt, va_list args) {
 				}
 
 				switch (ops_len) {
-				default: /* FIXME */
-					memcpy(va_arg(args, int*), &dst, sizeof(dst));
-					break;
 				case OPS_LEN_MIN:
 					*va_arg(args, char*) = dst;
 					break;
 				case OPS_LEN_SHORT:
 					*va_arg(args, short*) = dst;
+					break;
+				case OPS_LEN_LONG:
+					*va_arg(args, long*) = dst;
+					break;
+				case OPS_LEN_LONGLONG:
+					*va_arg(args, long long*) = dst;
+					break;
+				default: /* FIXME */
+					memcpy(va_arg(args, int*), &dst, sizeof(dst));
 					break;
 				}
 
