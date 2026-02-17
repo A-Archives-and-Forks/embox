@@ -1,0 +1,11 @@
+
+package embox.compat.posix.unistd.getopt.test
+
+module getopt_test {
+	source "getopt_test.c"
+
+}
+
+module getopt_long_test {
+	source "getopt_long_test.c"
+}
