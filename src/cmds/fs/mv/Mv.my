@@ -23,7 +23,7 @@ module mv {
 	source "mv.c"
 
 	depends embox.compat.libc.all
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	@NoRuntime depends embox.lib.libds
 	depends embox.framework.LibFramework
 	depends embox.compat.libc.str_dup

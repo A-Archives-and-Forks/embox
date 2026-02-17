@@ -9,7 +9,7 @@ module LibPosix {
 	//depends embox.compat.posix.util.All
 	depends embox.compat.posix.util.sleep
 	depends embox.compat.posix.util.gettimeofday
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	depends embox.compat.posix.util.getpass
 	depends embox.compat.posix.util.gethostname
 	depends embox.compat.posix.util.environ

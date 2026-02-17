@@ -19,7 +19,7 @@ module bootpc {
 	option number timeout = 3000
 	source "bootpc.c"
 
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	depends embox.compat.posix.net.socket
 	depends embox.compat.libc.all
 	depends embox.net.lib.bootp

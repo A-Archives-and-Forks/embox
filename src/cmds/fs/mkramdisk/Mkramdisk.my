@@ -18,7 +18,7 @@ module mkramdisk {
 	source "mkramdisk.c"
 
 	depends embox.driver.ramdisk
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	depends embox.framework.LibFramework
 }
 

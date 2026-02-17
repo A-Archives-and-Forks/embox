@@ -71,7 +71,7 @@ OPTIONS
 module xattr {
 	source "xattr.c"
 
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 
 	depends embox.fs.driver.ext2.xattr
 	@NoRuntime depends embox.compat.posix.file_system

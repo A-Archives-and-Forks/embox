@@ -12,7 +12,7 @@ package embox.cmd.sys
 module version {
 	source "version.c"
 
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	depends embox.lib.debug.buildinfo
 	@NoRuntime depends embox.framework.cmd
 	@NoRuntime depends embox.compat.libc.stdio.printf

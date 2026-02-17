@@ -32,7 +32,7 @@ module uniq {
 
 	depends embox.compat.libc.all
 
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	depends embox.framework.LibFramework
 	@NoRuntime depends embox.compat.posix.file_system
 }

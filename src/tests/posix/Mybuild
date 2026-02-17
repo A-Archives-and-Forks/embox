@@ -3,7 +3,7 @@ package embox.test.posix
 
 module all {
 	depends environ_test
-	depends getopt_test
+	depends embox.compat.posix.unistd.getopt.getopt_test
 	depends passwd
 	depends poll_test
 	depends select_test
@@ -23,20 +23,6 @@ module utime_test {
 module environ_test {
 	source "environ_test.c"
 	depends embox.compat.posix.util.environ
-	depends embox.framework.LibFramework
-}
-
-module getopt_test {
-	source "getopt_test.c"
-
-	depends embox.compat.posix.util.getopt
-	depends embox.framework.LibFramework
-}
-
-module getopt_long_test {
-	source "getopt_long_test.c"
-
-	depends embox.compat.posix.util.getopt
 	depends embox.framework.LibFramework
 }
 

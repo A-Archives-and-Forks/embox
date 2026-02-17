@@ -19,7 +19,7 @@ module block_dev_test {
 
 	depends embox.compat.libc.stdio.printf
 	depends embox.compat.libc.str
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	depends embox.driver.flash.core
 	depends embox.driver.block_dev
 	@NoRuntime depends embox.lib.libds

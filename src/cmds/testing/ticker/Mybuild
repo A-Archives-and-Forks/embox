@@ -25,6 +25,6 @@ module ticker {
 
 	depends embox.compat.libc.stdio.printf
 	depends embox.compat.libc.str
-	depends embox.compat.posix.util.getopt
+	depends embox.compat.posix.unistd.getopt
 	depends embox.compat.posix.util.sleep
 }

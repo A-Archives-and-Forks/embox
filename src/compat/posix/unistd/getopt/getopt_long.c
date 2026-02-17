@@ -49,12 +49,16 @@ static int getopt_try_long(int argl, char *const arg[],
 
 int getopt_long(int argc, char *const argv[], const char *optstring,
     const struct option *longopts, int *longindex) {
+	if (optind == 0) {
+			optind++;
+	}
 	if (optind < argc) {
 		int consumed;
 		const struct option *lopt;
 
-		if (strncmp(argv[optind], "--", 2))
-			return -1;
+		if (strncmp(argv[optind], "--", 2)) {
+			return getopt(argc, argv, optstring );
+		}
 
 		consumed = getopt_try_long(argc - optind, argv + optind, longopts,
 		    &lopt);
