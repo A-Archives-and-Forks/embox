@@ -1,20 +1,6 @@
 
 package embox.test.posix
 
-module all {
-	depends environ_test
-	depends embox.compat.posix.unistd.getopt.getopt_test
-	depends passwd
-	depends poll_test
-	depends select_test
-	depends pipe_test
-	depends ppty_test
-	depends fork_test
-	depends sleep_test
-	depends waitpid_test
-	depends utime_test
-}
-
 module utime_test {
 	source "utime_test.c"
 	depends embox.fs.driver.ramfs /* for creat() and close() */
