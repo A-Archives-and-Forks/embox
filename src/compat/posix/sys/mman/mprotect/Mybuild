@@ -1,7 +1,17 @@
 package embox.compat.posix.sys.mman
 
-module mprotect {
+@DefaultImpl(mprotect_impl)
+abstract module mprotect {
+}
+
+module mprotect_impl extends mprotect {
 	source "mprotect.c"
 
-	depends embox.compat.posix.sys.mman.mmap
+	@NoRuntime depends embox.compat.posix.sys.mman.mmap_api
+}
+
+module mprotect_stub extends mprotect {
+	option string log_level="LOG_NONE"
+
+	source "mprotect_stub.c"
 }
