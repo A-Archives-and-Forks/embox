@@ -22,7 +22,7 @@ esac
 
 EOF
 
-if [[ "$DIST_GEN" == "y" ]]; then
+if [[ -n "$DIST_GEN" ]]; then
 cat << 'EOF'
 EMBOX_DIST_DIR=$(realpath $(dirname $(realpath $0))/../.)
 EMBOX_DIST_INC_DIR=$EMBOX_DIST_DIR/include

@@ -33,11 +33,6 @@ EMBOX_IMPORTED_CXXFLAGS += -fpermissive
 endif
 endif
 
-ifdef DIST_GEN
-EMBOX_IMPORTED_CPPFLAGS := $(filter-out -I%,$(subst -I ,-I,$(strip $(EMBOX_IMPORTED_CPPFLAGS))))
-EMBOX_IMPORTED_CPPFLAGS += -I\$${EMBOX_DIST_INC_DIR}
-endif # DIST_GEN
-
 ifeq ($(ARCH),microblaze)
 # microblaze compiler wants vendor's xillinx.ld if no lds provided from command line.
 # Make it happy with empty lds
@@ -56,25 +51,6 @@ else
 EMBOX_IMPORTED_LDFLAGS_FULL += -Wl,--relax
 endif
 
-ifdef DIST_GEN
-EMBOX_IMPORTED_LDFLAGS_FULL += -Wl,-T,\$${EMBOX_DIST_LIB_DIR}/image.lds
-EMBOX_IMPORTED_LDFLAGS_FULL += \$${EMBOX_DIST_LIB_DIR}/embox.o
-EMBOX_IMPORTED_LDFLAGS_FULL += \$${EMBOX_DIST_LIB_DIR}/embox.a
-else
-# Use `main` as the explicit symbol for beginning execution of your program.
-# If there is no --entry=main flag, the test function section
-# will be discarded during garbage collection. This flag is needed to check
-# the implementation of functions by `configure` scripts
-EMBOX_IMPORTED_LDFLAGS_FULL += -Wl,--entry=main
-
-EMBOX_IMPORTED_LDFLAGS_FULL += -Wl,-T,$(OBJ_DIR)/image.lds
-EMBOX_IMPORTED_LDFLAGS_FULL += -Wl,--defsym=__symbol_table=0,--defsym=__symbol_table_size=0
-EMBOX_IMPORTED_LDFLAGS_FULL += $(OBJ_DIR)/embox-1.o
-EMBOX_IMPORTED_LDFLAGS_FULL += -Wl,--start-group
-EMBOX_IMPORTED_LDFLAGS_FULL += $(__image_ld_libs1)
-EMBOX_IMPORTED_LDFLAGS_FULL += -Wl,--end-group
-endif # DIST_GEN
-
 # Escape backticks to prevent command substitution (for example `pwd`).
 escape_backticks = $(strip $(subst `,\`,$1))
 EMBOX_IMPORTED_CFLAGS := $(call escape_backticks,$(EMBOX_IMPORTED_CFLAGS))
@@ -83,48 +59,86 @@ EMBOX_IMPORTED_CXXFLAGS := $(call escape_backticks,$(EMBOX_IMPORTED_CXXFLAGS))
 embox_gcc   := $(EMBOX_GCC) $(EMBOX_GXX)
 embox_clang := $(EMBOX_CLANG) $(EMBOX_CLANGXX)
 
-embox_binutils := \
+$(embox_gcc) $(embox_clang) : imported_cppflags := $(EMBOX_IMPORTED_CPPFLAGS)
+$(embox_gcc) $(embox_clang) : imported_cflags   := $(EMBOX_IMPORTED_CFLAGS)
+$(embox_gcc) $(embox_clang) : imported_m_cflags := $(EMBOX_IMPORTED_M_CFLAGS)
+$(embox_gcc) $(embox_clang) : imported_cxxflags := $(EMBOX_IMPORTED_CXXFLAGS)
+$(embox_gcc) $(embox_clang) : imported_ldflags  := $(EMBOX_IMPORTED_LDFLAGS)
+
+$(embox_gcc) $(embox_clang) : imported_ldflags_full := $(EMBOX_IMPORTED_LDFLAGS_FULL)
+# Use `main` as the explicit symbol for beginning execution of your program.
+# If there is no --entry=main flag, the test function section
+# will be discarded during garbage collection. This flag is needed to check
+# the implementation of functions by `configure` scripts
+$(embox_gcc) $(embox_clang) : imported_ldflags_full += -Wl,--entry=main
+$(embox_gcc) $(embox_clang) : imported_ldflags_full += -Wl,-T,$(OBJ_DIR)/image.lds
+$(embox_gcc) $(embox_clang) : imported_ldflags_full += -Wl,--defsym=__symbol_table=0
+$(embox_gcc) $(embox_clang) : imported_ldflags_full += -Wl,--defsym=__symbol_table_size=0
+$(embox_gcc) $(embox_clang) : imported_ldflags_full += $(OBJ_DIR)/embox-1.o
+$(embox_gcc) $(embox_clang) : imported_ldflags_full += -Wl,--start-group
+$(embox_gcc) $(embox_clang) : imported_ldflags_full += $(__image_ld_libs1)
+$(embox_gcc) $(embox_clang) : imported_ldflags_full += -Wl,--end-group
+
+embox_binutils  := \
 	$(TOOLCHAIN_DIR)/embox-ar \
 	$(TOOLCHAIN_DIR)/embox-ranlib \
 	$(TOOLCHAIN_DIR)/embox-nm \
 	$(TOOLCHAIN_DIR)/embox-size
 
 ifdef DIST_GEN
-embox_gcc := $(subst $(TOOLCHAIN_DIR),$(DIST_BIN_DIR),$(embox_gcc))
-embox_clang := $(subst $(TOOLCHAIN_DIR),$(DIST_BIN_DIR),$(embox_clang))
-embox_binutils := $(subst $(TOOLCHAIN_DIR),$(DIST_BIN_DIR),$(embox_binutils))
+dist_gcc      := $(subst $(TOOLCHAIN_DIR),$(DIST_BIN_DIR),$(embox_gcc))
+dist_clang    := $(subst $(TOOLCHAIN_DIR),$(DIST_BIN_DIR),$(embox_clang))
+dist_binutils := $(subst $(TOOLCHAIN_DIR),$(DIST_BIN_DIR),$(embox_binutils))
+
+$(dist_gcc) $(dist_clang) : imported_cppflags := \
+	$(filter-out -I%,$(subst -I ,-I,$(strip $(EMBOX_IMPORTED_CPPFLAGS)))) \
+	-I\$${EMBOX_DIST_INC_DIR}
+
+$(dist_gcc) $(dist_clang) : imported_cflags   := $(EMBOX_IMPORTED_CFLAGS)
+$(dist_gcc) $(dist_clang) : imported_m_cflags := $(EMBOX_IMPORTED_M_CFLAGS)
+$(dist_gcc) $(dist_clang) : imported_cxxflags := $(EMBOX_IMPORTED_CXXFLAGS)
+$(dist_gcc) $(dist_clang) : imported_ldflags  := $(EMBOX_IMPORTED_LDFLAGS)
+
+$(dist_gcc) $(dist_clang) : imported_ldflags_full := $(EMBOX_IMPORTED_LDFLAGS_FULL)
+$(dist_gcc) $(dist_clang) : imported_ldflags_full += -Wl,-T,\$${EMBOX_DIST_LIB_DIR}/image.lds
+$(dist_gcc) $(dist_clang) : imported_ldflags_full += \$${EMBOX_DIST_LIB_DIR}/embox.o
+$(dist_gcc) $(dist_clang) : imported_ldflags_full += \$${EMBOX_DIST_LIB_DIR}/embox.a
+else
+dist_gcc      :=
+dist_clang    :=
+dist_binutils :=
 endif # DIST_GEN
 
-embox_toolchain := $(embox_binutils)
+all_toolchain := $(embox_binutils) $(dist_binutils)
 
 ifeq ($(COMPILER),gcc)
-embox_toolchain += $(embox_gcc)
+all_toolchain += $(embox_gcc) $(dist_gcc)
 endif
 
 ifeq ($(COMPILER),clang)
-embox_toolchain += $(embox_clang)
+all_toolchain += $(embox_clang) $(dist_clang)
 endif
 
 .PHONY : all
-all : $(embox_toolchain)
+all : $(all_toolchain)
 
-$(embox_toolchain) : $(MKGEN_DIR)/build.mk $(MKGEN_DIR)/image.rule.mk
-$(embox_toolchain) : | $(TOOLCHAIN_DIR)
+$(all_toolchain) : $(MKGEN_DIR)/build.mk $(MKGEN_DIR)/image.rule.mk
+$(all_toolchain) : | $(TOOLCHAIN_DIR)
 
 $(TOOLCHAIN_DIR) :
 	@$(MKDIR) $@
 
-$(embox_gcc) $(embox_clang) :
+$(embox_gcc) $(embox_clang) $(dist_gcc) $(dist_clang) :
 	@COMPILER="$(COMPILER)" \
-		EMBOX_IMPORTED_CPPFLAGS="$(EMBOX_IMPORTED_CPPFLAGS)" \
-		EMBOX_IMPORTED_CFLAGS="$(EMBOX_IMPORTED_CFLAGS)" \
-		EMBOX_IMPORTED_M_CFLAGS="$(EMBOX_IMPORTED_M_CFLAGS)" \
-		EMBOX_IMPORTED_CXXFLAGS="$(EMBOX_IMPORTED_CXXFLAGS)" \
-		EMBOX_IMPORTED_LDFLAGS="$(EMBOX_IMPORTED_LDFLAGS)" \
-		EMBOX_IMPORTED_LDFLAGS_FULL="$(EMBOX_IMPORTED_LDFLAGS_FULL)" \
+		EMBOX_IMPORTED_CPPFLAGS="$(imported_cppflags)" \
+		EMBOX_IMPORTED_CFLAGS="$(imported_cflags)" \
+		EMBOX_IMPORTED_M_CFLAGS="$(imported_m_cflags)" \
+		EMBOX_IMPORTED_CXXFLAGS="$(imported_cxxflags)" \
+		EMBOX_IMPORTED_LDFLAGS="$(imported_ldflags)" \
+		EMBOX_IMPORTED_LDFLAGS_FULL="$(imported_ldflags_full)" \
 		$(ROOT_DIR)/mk/extbld/gen_compilers.sh > $@
 	@chmod +x $@
 
-$(embox_binutils) :
+$(embox_binutils) $(dist_binutils) :
 	@$(ROOT_DIR)/mk/extbld/gen_binutils.sh > $@
 	@chmod +x $@
