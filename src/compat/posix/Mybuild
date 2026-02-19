@@ -6,7 +6,6 @@ module LibPosix {
 	depends embox.compat.posix.proc.All
 	depends embox.compat.posix.passwd
 	depends embox.compat.posix.utmp_api
-	//depends embox.compat.posix.util.All
 	depends embox.compat.posix.util.sleep
 	depends embox.compat.posix.util.gettimeofday
 	depends embox.compat.posix.unistd.getopt
@@ -20,26 +19,8 @@ module LibPosix {
 	depends embox.compat.posix.pthreads
 	depends embox.compat.posix.timerfd
 	depends embox.compat.posix.fnmatch
-	depends sched
-	depends termios
-	depends syslog
+	depends embox.compat.posix.sched.sched
+	depends embox.compat.posix.termios
+	depends embox.compat.posix.syslog
 	depends embox.kernel.task.resource.errno
-}
-
-static module pty {
-	source "pty.c"
-}
-
-static module sched {
-	source "sched_posix.c"
-	source "sched_gnu_source.c"
-}
-
-static module termios {
-	source "termios.c"
-	depends embox.driver.tty.tty
-}
-
-static module semaphore {
-	source "semaphore.c"
 }

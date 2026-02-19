@@ -17,3 +17,8 @@ static module sched_getscheduler_stub extends sched_getscheduler {
 
 	source "sched_getscheduler_stub.c"
 }
+
+static module sched {
+	source "sched_posix.c"
+	source "sched_gnu_source.c"
+}
