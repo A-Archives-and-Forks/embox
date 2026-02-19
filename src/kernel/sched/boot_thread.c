@@ -26,7 +26,7 @@ struct schedee *boot_thread_create(void) {
 	extern char _stack_top;
 
 	bootstrap = thread_init_stack((void *) ((uintptr_t) &_stack_top - KERNEL_BSP_STACK_SZ), KERNEL_BSP_STACK_SZ,
-			SCHED_PRIORITY_NORMAL, boot_stub, NULL);
+			SCHED_OTHER_PRIORITY_NORM, boot_stub, NULL);
 
 	task_set_main(task_kernel_task(), bootstrap);
 	thread_set_current(bootstrap);
