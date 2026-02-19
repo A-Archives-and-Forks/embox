@@ -109,15 +109,18 @@ EMBOX_EXPORT_CPPFLAGS := $(filter-out -D%" -D%',$(cppflags))
 #
 common_flags := -pipe
 
-# check whether option is supported by sending all errors to /dev/null
-# if not supported 'echo true' will be ANDed with zero output
-# else it is supported
-# this flag makes the pathnames to sources for debug symbols relative
-# to the the root embox directory, keep that in mind in order for the debugger
-# to properly find sources at runtime.
 file_prefix_map_supported := $(shell $(CPP) /dev/zero -ffile-prefix-map=./=. 2>/dev/null && echo true)
 ifeq ($(file_prefix_map_supported),true)
+ifdef DIST_GEN
+# -ffile-prefix-map is an alias for both -fdebug-prefix-map and -fmacro-prefix-map
 common_flags += -ffile-prefix-map=`pwd`=.
+else
+# -fdebug-prefix-map complicates debugging of extbld projects,
+# it does not affect the code size unless you use __symbol_table
+# from embox.lib.debug.symbol module,
+# so only -fmacro-prefix-map is used (to reduce the code size)
+common_flags += -fmacro-prefix-map=`pwd`=.
+endif # DIST_GEN
 endif
 
 #

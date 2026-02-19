@@ -197,6 +197,7 @@ $(image_lds) : flags = $(addprefix -include ,$(wildcard \
 $(image_lds) : $(GEN_DIR)/image.lds.S
 
 ifdef DIST_GEN
+ifeq ($(STAGE),2)
 embox_a   := $(OBJ_DIR)/embox-$(STAGE).a
 embox_mri := $(OBJ_DIR)/embox-$(STAGE).mri
 
@@ -212,6 +213,7 @@ $(embox_mri) :
 
 $(embox_a) : $(embox_mri) $(embox_o)
 	$(AR) $(ARFLAGS) -M <$(embox_mri)
+endif # STAGE
 endif # DIST_GEN
 
 -include $(image_lds).d
