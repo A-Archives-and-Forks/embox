@@ -27,6 +27,8 @@
 #define SYSTIMER_UNIT0_LOAD_HI	(BASE_ADDR + 0x00c)
 #define SYSTIMER_UNIT0_LOAD_LO	(BASE_ADDR + 0x010)
 #define SYSTIMER_UNIT0_LOAD		(BASE_ADDR + 0x05c)
+#define SYSTIMER_UNIT0_VALUE_HI	(BASE_ADDR + 0x040)
+#define SYSTIMER_UNIT0_VALUE_LO	(BASE_ADDR + 0x044)
 
 struct esp32_systimer_val64 {
 	volatile uint32_t hi;
@@ -84,6 +86,15 @@ struct esp32_systimer_regs {
 } /*__attribute__((packed))*/;
 
 // static struct esp32_systimer_regs *ESP32_SYSTIMER = (void *)(uintptr_t)BASE_ADDR;
+
+static inline uint64_t esp32c3_systimer_get_time(void) {
+    uint32_t hi, lo;
+	do {
+		hi = REG32_LOAD(SYSTIMER_UNIT0_VALUE_HI);
+		lo = REG32_LOAD(SYSTIMER_UNIT0_VALUE_LO);
+	} while (hi != REG32_LOAD(SYSTIMER_UNIT0_VALUE_HI));
+    return ((uint64_t)hi << 32) | lo;
+}
 
 static int esp32c3_systimer_set_periodic(struct clock_source *cs) {
 	return 0;
