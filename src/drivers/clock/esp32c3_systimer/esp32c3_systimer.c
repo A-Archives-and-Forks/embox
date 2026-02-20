@@ -22,6 +22,11 @@
 #define SYSTIMER_TARGET0_LO		(BASE_ADDR + 0x020)
 #define SYSTIMER_COMP0_LOAD		(BASE_ADDR + 0x050)
 #define SYSTIMER_INT_ENA		(BASE_ADDR + 0x064)
+#define SYSTIMER_INT_CLR		(BASE_ADDR + 0x06c)
+#define SYSTIMER_UNIT0_OP		(BASE_ADDR + 0x004)
+#define SYSTIMER_UNIT0_LOAD_HI	(BASE_ADDR + 0x00c)
+#define SYSTIMER_UNIT0_LOAD_LO	(BASE_ADDR + 0x010)
+#define SYSTIMER_UNIT0_LOAD		(BASE_ADDR + 0x05c)
 
 struct esp32_systimer_val64 {
 	volatile uint32_t hi;
@@ -104,10 +109,28 @@ static struct time_counter_device esp32c3_systimer_cd = {
 
 static irq_return_t esp32c3_systimer_irq_handler(unsigned int irq_nr,
 														void *data) {
+	REG32_CLEAR(SYSTIMER_TARGET0_CONF, 1 << 31);
 
-	//systimer_ll_clear_alarm_int(systimer_hal.dev, SYSTIMER_ALARM_OS_TICK_CORE0);
-	// REG32_ORIN(&ESP32_SYSTIMER->int_ena, 1);
+	REG32_STORE(SYSTIMER_UNIT0_LOAD_LO, 0);
+	REG32_STORE(SYSTIMER_UNIT0_LOAD_HI, 0);
+	REG32_STORE(SYSTIMER_UNIT0_LOAD, 1);
+
+	REG32_CLEAR(SYSTIMER_TARGET0_CONF, 1 << 30);
+
+	uint64_t time = (uint64_t)(100000);
+
+	REG32_STORE(SYSTIMER_TARGET0_HI, (uint32_t)(time >> 32));
+	REG32_STORE(SYSTIMER_TARGET0_LO, (uint32_t)(time & 0xFFFFFFFFULL));
+
+	REG32_STORE(SYSTIMER_COMP0_LOAD, 1);
+
+	REG32_ORIN(SYSTIMER_CONF,  1 << 24);
+
 	REG32_ORIN(SYSTIMER_INT_ENA, 1);
+
+	REG32_STORE(SYSTIMER_INT_CLR, 1);
+
+	REG32_ORIN(SYSTIMER_UNIT0_OP, 1 << 30);
 	
 	clock_tick_handler(data);
 
