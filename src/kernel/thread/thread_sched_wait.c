@@ -80,7 +80,7 @@ int sched_wait_timeout(clock_t timeout, clock_t *remain) {
 
 	cur_time = clock();
 	thread_wait_add(&thr->thread_wait_list, &tmr);
-	if ((res = sys_timer_init_start_msec(&tmr, SYS_TIMER_ONESHOT, jiffies2ms(timeout),
+	if ((res = sys_timer_init_start(&tmr, SYS_TIMER_ONESHOT, timeout,
 			sched_wait_timeout_handler, schedee_get_current()))) {
 		thread_wait_del(&tmr);
 		return res;
