@@ -81,18 +81,6 @@ struct esp32_systimer_regs {
 // static struct esp32_systimer_regs *ESP32_SYSTIMER = (void *)(uintptr_t)BASE_ADDR;
 
 static int esp32c3_systimer_set_periodic(struct clock_source *cs) {
-	// REG32_STORE(&ESP32_SYSTIMER->target_conf[0], 0);
-	REG32_STORE(SYSTIMER_TARGET0_CONF, 0);
-
-	// REG32_ORIN(&ESP32_SYSTIMER->target_conf[0], RTC_FREQ);
-	REG32_ORIN(SYSTIMER_TARGET0_CONF, RTC_FREQ/10000);
-
-	// REG32_ORIN(&ESP32_SYSTIMER->comp_load[0], 1);
-	REG32_ORIN(SYSTIMER_COMP0_LOAD, 1);
-
-	// REG32_ORIN(&ESP32_SYSTIMER->target_conf[0], 1 << 30);
-	REG32_ORIN(SYSTIMER_TARGET0_CONF, 1 << 30);
-
 	return 0;
 }
 
@@ -149,7 +137,7 @@ static int esp32c3_systimer_init(struct clock_source *cs) {
 	// systimer_ll_counter_can_stall_by_cpu(hal->dev, counter_id, cpu_id, can);
 	// REG32_ORIN(&ESP32_SYSTIMER->conf,  1 << 26);
 	// REG32_ORIN(SYSTIMER_CONF,  1 << 26);
-	
+
 	// systimer_ll_enable_alarm(systimer_hal.dev, SYSTIMER_ALARM_OS_TICK_CORE0, false);
 	// REG32_ANDIN(&ESP32_SYSTIMER->conf, ~(1 << 24));
 	REG32_CLEAR(SYSTIMER_CONF, 1 << 24);
