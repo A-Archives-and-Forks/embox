@@ -78,7 +78,7 @@ TEST_CASE("Create lthreads with different priorities") {
 	for(int i = 0; i < LTHREAD_QUANTITY; i++) {
 		lthread_init(&lts[i], run2);
 		test_assert_zero(
-			schedee_priority_set(&lts[i].schedee, SCHED_PRIORITY_MAX - i)
+			schedee_priority_set(&lts[i].schedee, SCHED_LT_PRIORITY_MAX - i)
 		);
 		lthread_launch(&lts[i]);
 	}
@@ -103,10 +103,10 @@ TEST_CASE("Test executing order") {
 	done = 0;
 
 	lthread_init(&lt1, run1);
-	schedee_priority_set(&lt1.schedee, SCHED_PRIORITY_MAX - 1);
+	schedee_priority_set(&lt1.schedee, SCHED_LT_PRIORITY_MAX - 1);
 
 	lthread_init(&lt2, run3);
-	schedee_priority_set(&lt2.schedee, SCHED_PRIORITY_MAX);
+	schedee_priority_set(&lt2.schedee, SCHED_LT_PRIORITY_MAX);
 
 	/* prevent scheduling to avoid executing one
 	 * before adding another to runq
@@ -130,7 +130,7 @@ TEST_CASE("Test several launches") {
 	done = 0;
 
 	lthread_init(&lt, run1);
-	schedee_priority_set(&lt.schedee, SCHED_PRIORITY_MAX);
+	schedee_priority_set(&lt.schedee, SCHED_LT_PRIORITY_MAX);
 
 	lthread_launch(&lt);
 	ksleep(0);

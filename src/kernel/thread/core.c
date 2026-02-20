@@ -88,14 +88,14 @@ int thread_priority_by_flags(unsigned int flags) {
 	if (flags & THREAD_FLAG_PRIORITY_INHERIT) {
 		priority = schedee_priority_get(&thread_self()->schedee);
 	} else {
-		priority = SCHED_PRIORITY_NORMAL;
+		priority = SCHED_OTHER_PRIORITY_NORM;
 	}
 
 	if ((flags & THREAD_FLAG_PRIORITY_LOWER)
 			&& (priority > SCHED_PRIORITY_MIN)) {
 		priority--;
 	} else if ((flags & THREAD_FLAG_PRIORITY_HIGHER)
-			&& (priority < SCHED_PRIORITY_HIGH)) {
+			&& (priority < SCHED_RT_PRIORITY_MAX)) { /* not for lthread */
 		priority++;
 	}
 

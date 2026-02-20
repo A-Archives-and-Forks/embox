@@ -17,3 +17,10 @@ static module sched_getscheduler_stub extends sched_getscheduler {
 
 	source "sched_getscheduler_stub.c"
 }
+
+static module sched {
+	option string log_level = "LOG_DEBUG"
+
+	source "sched_posix.c"
+	source "sched_gnu_source.c"
+}

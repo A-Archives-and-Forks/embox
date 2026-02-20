@@ -1,0 +1,6 @@
+package embox.compat.posix
+
+static module termios {
+	source "termios.c"
+	depends embox.driver.tty.tty
+}

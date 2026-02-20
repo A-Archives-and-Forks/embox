@@ -63,7 +63,7 @@ int pthread_attr_init(pthread_attr_t *attr) {
 	}
 
 	attr->policy = SCHED_OTHER;
-	attr->sched_param.sched_priority = SCHED_PRIORITY_NORMAL;
+	attr->sched_param.sched_priority = SCHED_OTHER_PRIORITY_NORM;
 
 	return ENOERR;
 }
@@ -249,17 +249,23 @@ int pthread_setconcurrency(int new_level) {
 int pthread_setschedparam(pthread_t thread, int policy,
 		const struct sched_param *param) {
 	int sched_priority;
-#if 0
-	assertf((policy != SCHED_FIFO && policy != SCHED_RR) ||
-			param->sched_priority >= 200, "In current realization you must "
-			"use SCHED_FIFO and SCHED_RR only with priority more or equal 200");
-#endif
-	/* FIXME */
-	sched_priority = param->sched_priority;
-	if ((policy == SCHED_FIFO || policy == SCHED_RR)) {
-		if (param->sched_priority < 200) {
-			sched_priority = 200 + param->sched_priority / 2; /* 1-99 -> 200-255*/
-		}
+
+	if (param->sched_priority > SCHED_RT_PRIORITY_MIN) {
+		return -EINVAL;
+	}
+
+	if ( (policy == SCHED_OTHER) &&
+			( (SCHED_OTHER_PRIORITY_MIN < param->sched_priority) ||
+			  (SCHED_OTHER_PRIORITY_MAX > param->sched_priority) ) ) {
+		return -EINVAL;
+	}
+
+	if ( (policy == SCHED_FIFO || policy == SCHED_RR) &&
+			(param->sched_priority < SCHED_RT_PRIORITY_MIN) ) {
+			/* 1-99 -> 100-199 */
+			sched_priority = SCHED_RT_PRIORITY_MIN + param->sched_priority;
+	} else {
+			sched_priority = param->sched_priority;
 	}
 
 	thread->policy = policy;

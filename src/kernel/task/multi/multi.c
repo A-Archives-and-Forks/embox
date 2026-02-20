@@ -427,7 +427,7 @@ int task_set_priority(struct task *tsk, task_priority_t new_prior) {
 
 		task_foreach_thread(t, tsk) {
 			/* reschedule thread */
-			schedee_priority_set(&t->schedee, SCHED_PRIORITY_NORMAL + new_prior);
+			schedee_priority_set(&t->schedee, SCHED_OTHER_PRIORITY_NORM + new_prior);
 		}
 	}
 	sched_unlock();

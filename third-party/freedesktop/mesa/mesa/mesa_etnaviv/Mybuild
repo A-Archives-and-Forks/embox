@@ -17,7 +17,7 @@ module  mesa_etnaviv {
 	source "^BUILD/extbld/^MOD_PATH/install/libwsw.a"
 
 	depends embox.compat.posix.util.gettimeofday
-	depends embox.compat.posix.sched
+	depends embox.compat.posix.sched.sched
 	depends embox.compat.posix.pthread_key
 	depends embox.kernel.task.idesc.idesc_mmap
 	depends embox.compat.posix.sys.mman.mmap
