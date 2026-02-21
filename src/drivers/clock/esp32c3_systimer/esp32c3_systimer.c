@@ -22,6 +22,13 @@
 #define SYSTIMER_TARGET0_LO		(BASE_ADDR + 0x020)
 #define SYSTIMER_COMP0_LOAD		(BASE_ADDR + 0x050)
 #define SYSTIMER_INT_ENA		(BASE_ADDR + 0x064)
+#define SYSTIMER_INT_CLR		(BASE_ADDR + 0x06c)
+#define SYSTIMER_UNIT0_OP		(BASE_ADDR + 0x004)
+#define SYSTIMER_UNIT0_LOAD_HI	(BASE_ADDR + 0x00c)
+#define SYSTIMER_UNIT0_LOAD_LO	(BASE_ADDR + 0x010)
+#define SYSTIMER_UNIT0_LOAD		(BASE_ADDR + 0x05c)
+#define SYSTIMER_UNIT0_VALUE_HI	(BASE_ADDR + 0x040)
+#define SYSTIMER_UNIT0_VALUE_LO	(BASE_ADDR + 0x044)
 
 struct esp32_systimer_val64 {
 	volatile uint32_t hi;
@@ -80,19 +87,16 @@ struct esp32_systimer_regs {
 
 // static struct esp32_systimer_regs *ESP32_SYSTIMER = (void *)(uintptr_t)BASE_ADDR;
 
+static inline uint64_t esp32c3_systimer_get_time(void) {
+    uint32_t hi, lo;
+	do {
+		hi = REG32_LOAD(SYSTIMER_UNIT0_VALUE_HI);
+		lo = REG32_LOAD(SYSTIMER_UNIT0_VALUE_LO);
+	} while (hi != REG32_LOAD(SYSTIMER_UNIT0_VALUE_HI));
+    return ((uint64_t)hi << 32) | lo;
+}
+
 static int esp32c3_systimer_set_periodic(struct clock_source *cs) {
-	// REG32_STORE(&ESP32_SYSTIMER->target_conf[0], 0);
-	REG32_STORE(SYSTIMER_TARGET0_CONF, 0);
-
-	// REG32_ORIN(&ESP32_SYSTIMER->target_conf[0], RTC_FREQ);
-	REG32_ORIN(SYSTIMER_TARGET0_CONF, RTC_FREQ/10000);
-
-	// REG32_ORIN(&ESP32_SYSTIMER->comp_load[0], 1);
-	REG32_ORIN(SYSTIMER_COMP0_LOAD, 1);
-
-	// REG32_ORIN(&ESP32_SYSTIMER->target_conf[0], 1 << 30);
-	REG32_ORIN(SYSTIMER_TARGET0_CONF, 1 << 30);
-
 	return 0;
 }
 
@@ -116,10 +120,28 @@ static struct time_counter_device esp32c3_systimer_cd = {
 
 static irq_return_t esp32c3_systimer_irq_handler(unsigned int irq_nr,
 														void *data) {
+	REG32_CLEAR(SYSTIMER_TARGET0_CONF, 1 << 31);
 
-	//systimer_ll_clear_alarm_int(systimer_hal.dev, SYSTIMER_ALARM_OS_TICK_CORE0);
-	// REG32_ORIN(&ESP32_SYSTIMER->int_ena, 1);
+	REG32_STORE(SYSTIMER_UNIT0_LOAD_LO, 0);
+	REG32_STORE(SYSTIMER_UNIT0_LOAD_HI, 0);
+	REG32_STORE(SYSTIMER_UNIT0_LOAD, 1);
+
+	REG32_CLEAR(SYSTIMER_TARGET0_CONF, 1 << 30);
+
+	uint64_t time = (uint64_t)(100000);
+
+	REG32_STORE(SYSTIMER_TARGET0_HI, (uint32_t)(time >> 32));
+	REG32_STORE(SYSTIMER_TARGET0_LO, (uint32_t)(time & 0xFFFFFFFFULL));
+
+	REG32_STORE(SYSTIMER_COMP0_LOAD, 1);
+
+	REG32_ORIN(SYSTIMER_CONF,  1 << 24);
+
 	REG32_ORIN(SYSTIMER_INT_ENA, 1);
+
+	REG32_STORE(SYSTIMER_INT_CLR, 1);
+
+	REG32_ORIN(SYSTIMER_UNIT0_OP, 1 << 30);
 	
 	clock_tick_handler(data);
 
@@ -136,31 +158,23 @@ static int esp32c3_systimer_init(struct clock_source *cs) {
 
 	// systimer_ll_enable_clock(hal->dev, true);
 	// REG32_ORIN(&ESP32_SYSTIMER->conf,  (uint32_t)(1 << 31));
-	REG32_ORIN(SYSTIMER_CONF,  (uint32_t)(1 << 31));
+	REG32_ORIN(SYSTIMER_CONF,  (1 << 31));
 
 	// systimer_ll_connect_alarm_counter(hal->dev, alarm_id, counter_id);
 	// REG32_STORE(&ESP32_SYSTIMER->target_conf[0], 1 << 31);
-	REG32_STORE(SYSTIMER_TARGET0_CONF, 1 << 31);
+	REG32_STORE(SYSTIMER_TARGET0_CONF, 0);
 
 	// systimer_ll_enable_counter(hal->dev, counter_id, true);
 	// REG32_ORIN(&ESP32_SYSTIMER->conf,  1 << 30);
 	REG32_ORIN(SYSTIMER_CONF,  1 << 30);
 
 	// systimer_ll_counter_can_stall_by_cpu(hal->dev, counter_id, cpu_id, can);
-	//REG32_ORIN(&ESP32_SYSTIMER->conf,  1 << 26);
-	REG32_ORIN(SYSTIMER_CONF,  1 << 26);
+	// REG32_ORIN(&ESP32_SYSTIMER->conf,  1 << 26);
+	// REG32_ORIN(SYSTIMER_CONF,  1 << 26);
 
 	// systimer_ll_enable_alarm(systimer_hal.dev, SYSTIMER_ALARM_OS_TICK_CORE0, false);
 	// REG32_ANDIN(&ESP32_SYSTIMER->conf, ~(1 << 24));
-	REG32_ANDIN(SYSTIMER_CONF, ~(1 << 24));
-
-	// systimer_ll_set_alarm_target(systimer_hal.dev, SYSTIMER_ALARM_OS_TICK_CORE0, alarm.val);
-	// esp32_systimer->target_val[0].hi = alarm.val >> 32;
-	// REG32_STORE(&ESP32_SYSTIMER->target_val[0].hi, 0);
-	REG32_STORE(SYSTIMER_TARGET0_HI, 0);
-    // esp32_systimer->target_val[0].low = alarm.val & 0xFFFFFFFF;
-	// REG32_STORE(&ESP32_SYSTIMER->target_val[0].low, 0);
-	REG32_STORE(SYSTIMER_TARGET0_LO, 0);
+	REG32_CLEAR(SYSTIMER_CONF, 1 << 24);
 
 	// systimer_ll_apply_alarm_value(systimer_hal.dev, SYSTIMER_ALARM_OS_TICK_CORE0);
 	// REG32_STORE(&ESP32_SYSTIMER->comp_load[0], 1);
