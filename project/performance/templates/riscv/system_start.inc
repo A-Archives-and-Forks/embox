@@ -3,5 +3,5 @@
 //"netmanager",
 //"service telnetd",
 //"service httpd",
-"cyclictest —interval=100000 --dbg_cyclictest --priority=40",
+"cyclictest --interval=10000 --dbg_cyclictest --priority=40",
 "tish",

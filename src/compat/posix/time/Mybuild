@@ -45,7 +45,7 @@ module localtime {
 static module nanosleep {
 	option string log_level="LOG_NONE"
 
-	source "nanosleep.c"
+	source "clock_nanosleep.c"
 
 	depends embox.kernel.timer.sleep_api
 	depends embox.kernel.time.kernel_time

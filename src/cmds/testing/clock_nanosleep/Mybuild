@@ -1,0 +1,11 @@
+package embox.cmd.testing
+
+@AutoCmd
+@Cmd(name = "clock_nanosleep",
+     help = "Helps estimate timer frequency")
+module clock_nanosleep {
+	source "clock_nanosleep.c"
+
+	depends embox.compat.libc.stdio.printf
+	depends embox.compat.posix.time.nanosleep
+}
