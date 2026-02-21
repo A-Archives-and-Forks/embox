@@ -126,9 +126,9 @@ int main(int argc, char **argv) {
 			struct timespec ts_res;
 
 			timespecsub(&args[i].ts_after, &args[i].ts_before, &ts_res);
-			//printf("(%d) duration (%d): %09ld nanosec \n", args[i].cnt, i, (long)args[i].ts_after.tv_nsec);
-			//printf("(%d) duration (%d): %09ld nanosec \n", args[i].cnt, i, (long)args[i].ts_before.tv_nsec);
-			//printf("(%d) duration (%d): %09ld nanosec \n", args[i].cnt, i, (long)ts_res.tv_nsec);
+			printf("(%d) duration (%d): %09ld nanosec \n", args[i].cnt, i, (long)args[i].ts_after.tv_nsec);
+			printf("(%d) duration (%d): %09ld nanosec \n", args[i].cnt, i, (long)args[i].ts_before.tv_nsec);
+			printf("(%d) duration (%d): %09ld nanosec \n", args[i].cnt, i, (long)ts_res.tv_nsec);
 
 			args[i].cnt ++;
 			if (args[i].ts_min.tv_nsec > ts_res.tv_nsec) {
