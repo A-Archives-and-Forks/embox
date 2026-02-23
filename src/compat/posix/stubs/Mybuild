@@ -8,7 +8,6 @@ static module stubs {
 		"flockfile.c",
 		"ftrylockfile.c",
 		"funlockfile.c",
-		"getdtablesize.c",
 		"getgroups.c",
 		"getppid.c",
 		"setpgid.c",
