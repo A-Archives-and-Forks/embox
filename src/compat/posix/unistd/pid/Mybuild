@@ -2,4 +2,5 @@ package embox.compat.posix.unistd
 
 static module pid {
 	source "getpid.c"
+	source "getppid.c"
 }

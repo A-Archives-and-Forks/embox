@@ -9,7 +9,6 @@ static module stubs {
 		"ftrylockfile.c",
 		"funlockfile.c",
 		"getgroups.c",
-		"getppid.c",
 		"setpgid.c",
 		"setsid.c"
 
