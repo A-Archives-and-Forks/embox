@@ -1,1 +1,1 @@
-"cyclictest --dbg_cyclictest --resolution",
+"cyclictest -i 10000 -l 2000 -p 40 -q",
