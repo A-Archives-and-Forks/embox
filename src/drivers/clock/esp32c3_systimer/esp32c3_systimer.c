@@ -1,7 +1,6 @@
 #include <errno.h>
 #include <stdint.h>
 
-
 #include <hal/clock.h>
 #include <hal/reg.h>
 #include <hal/system.h>
@@ -88,6 +87,8 @@ struct esp32_systimer_regs {
 // static struct esp32_systimer_regs *ESP32_SYSTIMER = (void *)(uintptr_t)BASE_ADDR;
 
 static inline uint64_t esp32c3_systimer_get_time(void) {
+	REG32_ORIN(SYSTIMER_UNIT0_OP, 1 << 30);
+
     uint32_t hi, lo;
 	do {
 		hi = REG32_LOAD(SYSTIMER_UNIT0_VALUE_HI);
@@ -120,28 +121,22 @@ static struct time_counter_device esp32c3_systimer_cd = {
 
 static irq_return_t esp32c3_systimer_irq_handler(unsigned int irq_nr,
 														void *data) {
+	REG32_STORE(SYSTIMER_INT_CLR, 1);
+	
 	REG32_CLEAR(SYSTIMER_TARGET0_CONF, 1 << 31);
 
-	REG32_STORE(SYSTIMER_UNIT0_LOAD_LO, 0);
-	REG32_STORE(SYSTIMER_UNIT0_LOAD_HI, 0);
-	REG32_STORE(SYSTIMER_UNIT0_LOAD, 1);
+	uint64_t target = esp32c3_systimer_get_time() + 75000;
 
 	REG32_CLEAR(SYSTIMER_TARGET0_CONF, 1 << 30);
 
-	uint64_t time = (uint64_t)(100000);
-
-	REG32_STORE(SYSTIMER_TARGET0_HI, (uint32_t)(time >> 32));
-	REG32_STORE(SYSTIMER_TARGET0_LO, (uint32_t)(time & 0xFFFFFFFFULL));
+	REG32_STORE(SYSTIMER_TARGET0_HI, (uint32_t)(target >> 32));
+	REG32_STORE(SYSTIMER_TARGET0_LO, (uint32_t)(target & 0xFFFFFFFF));
 
 	REG32_STORE(SYSTIMER_COMP0_LOAD, 1);
 
 	REG32_ORIN(SYSTIMER_CONF,  1 << 24);
 
 	REG32_ORIN(SYSTIMER_INT_ENA, 1);
-
-	REG32_STORE(SYSTIMER_INT_CLR, 1);
-
-	REG32_ORIN(SYSTIMER_UNIT0_OP, 1 << 30);
 	
 	clock_tick_handler(data);
 
