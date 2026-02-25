@@ -21,7 +21,7 @@ module login {
 	option boolean security_support = true
 	//depends embox.security.smac
 
-	depends embox.compat.posix.proc.pid
+	depends embox.compat.posix.unistd.pid
 	depends embox.compat.posix.proc.uid
 	depends embox.compat.posix.util.gettimeofday
 	depends embox.compat.posix.util.getpass

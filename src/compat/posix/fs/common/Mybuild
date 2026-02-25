@@ -10,6 +10,7 @@ static module file_system_common {
 	source "creat.c"
 	source "fsync.c"
 	source "getcwd.c"
+	source "getdtablesize.c"
 	source "lseek.c"
 	source "openat.c"
 	source "pread.c"

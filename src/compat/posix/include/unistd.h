@@ -302,6 +302,8 @@ extern int lchown(const char *path, uid_t owner, gid_t group);
 
 extern unsigned int alarm(unsigned seconds);
 
+extern int getdtablesize(void);
+
 /*******************************************
  * stubs
  *******************************************/

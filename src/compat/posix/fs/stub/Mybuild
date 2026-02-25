@@ -13,6 +13,7 @@ static module file_system_stub extends file_system {
 	source "fsync_stub.c"
 	source "ftruncate_stub.c"
 	source "getcwd_stub.c"
+	source "getdtablesize_stub.c"
 	source "lseek_stub.c"
 	source "mkdir_stub.c"
 	source "mknod_stub.c"
