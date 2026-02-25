@@ -11,6 +11,7 @@
 #include <kernel/thread/sync/semaphore.h>
 #include <kernel/sched.h>
 #include <kernel/thread/waitq.h>
+#include "kernel/time/time.h"
 
 static int tryenter_sched_lock(struct sem *s);
 
@@ -35,15 +36,15 @@ int semaphore_timedwait(struct sem *restrict s, const struct timespec *restrict 
 	assert(critical_allows(CRITICAL_SCHED_LOCK));
 
 	if (tryenter_sched_lock(s) != 0) {
-		int ms;
+		time64_t ns;
 
 		clock_gettime(CLOCK_REALTIME, &current_time);
 
 		time_to_wait = timespec_sub(*abs_timeout, current_time);
-		ms = timespec_to_ns(&time_to_wait) / NSEC_PER_MSEC;
+		ns = timespec_to_ns(&time_to_wait);
 
-		if (ms > 0) {
-			ret = WAITQ_WAIT_TIMEOUT(&s->wq, !tryenter_sched_lock(s), ms);
+		if (ns > 0) {
+			ret = WAITQ_WAIT_TIMEOUT_NS(&s->wq, !tryenter_sched_lock(s), ns);
 		} else {
 			ret = -ETIMEDOUT;
 		}
