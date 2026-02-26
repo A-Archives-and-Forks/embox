@@ -92,7 +92,7 @@
 	\op     a4, (\offset + __caller_saved_a4_offset)(\base)
 	\op     a5, (\offset + __caller_saved_a5_offset)(\base)
 	\op     a6, (\offset + __caller_saved_a6_offset)(\base)
-	\op     a6, (\offset + __caller_saved_a7_offset)(\base)
+	\op     a7, (\offset + __caller_saved_a7_offset)(\base)
 	\op     t0, (\offset + __caller_saved_t0_offset)(\base)
 	\op     t1, (\offset + __caller_saved_t1_offset)(\base)
 	\op     t2, (\offset + __caller_saved_t2_offset)(\base)
