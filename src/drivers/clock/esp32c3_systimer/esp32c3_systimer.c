@@ -98,6 +98,12 @@ static inline uint64_t esp32c3_systimer_get_time(void) {
 }
 
 static int esp32c3_systimer_set_periodic(struct clock_source *cs) {
+	REG32_CLEAR(SYSTIMER_TARGET0_CONF, 1 << 31);
+
+	REG32_CLEAR(SYSTIMER_TARGET0_CONF, 1 << 30);
+
+	REG32_ORIN(SYSTIMER_CONF,  1 << 24);
+
 	return 0;
 }
 
@@ -122,23 +128,17 @@ static struct time_counter_device esp32c3_systimer_cd = {
 static irq_return_t esp32c3_systimer_irq_handler(unsigned int irq_nr,
 														void *data) {
 	REG32_STORE(SYSTIMER_INT_CLR, 1);
-	
-	REG32_CLEAR(SYSTIMER_TARGET0_CONF, 1 << 31);
 
-	uint64_t target = esp32c3_systimer_get_time() + 75000;
-
-	REG32_CLEAR(SYSTIMER_TARGET0_CONF, 1 << 30);
+	uint64_t target = esp32c3_systimer_get_time() + 80000;
 
 	REG32_STORE(SYSTIMER_TARGET0_HI, (uint32_t)(target >> 32));
 	REG32_STORE(SYSTIMER_TARGET0_LO, (uint32_t)(target & 0xFFFFFFFF));
 
 	REG32_STORE(SYSTIMER_COMP0_LOAD, 1);
 
-	REG32_ORIN(SYSTIMER_CONF,  1 << 24);
-
 	REG32_ORIN(SYSTIMER_INT_ENA, 1);
 	
-	clock_tick_handler(data);
+	clock_handle_ticks(data, 5);
 
 	return IRQ_HANDLED;
 }
