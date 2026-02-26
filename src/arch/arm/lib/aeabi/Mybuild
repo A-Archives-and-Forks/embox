@@ -1,0 +1,6 @@
+package embox.arch.arm
+
+static module aeabi {
+	source "aeabi_atexit.c"
+	source "aeabi_read_tp.c"
+}
